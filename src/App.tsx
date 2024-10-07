@@ -245,6 +245,27 @@ function App() {
     }
   }, [location, venue, handleLocationSelect]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const fromLocation = params.get("from");
+    const toLocation = params.get("to");
+  
+    if (fromLocation && toLocation && venue) {
+      const departureLocation = venue.locations.find(
+        (location) => location.name === fromLocation
+      );
+      const destinationLocation = venue.locations.find(
+        (location) => location.name === toLocation
+      );
+  
+      if (departureLocation && destinationLocation) {
+        handleLocationSelect(departureLocation);
+        handleLocationSelect(destinationLocation);
+      }
+    }
+  }, [location.search, venue, handleLocationSelect]);
+  
+
   // Manejar cambio de mapa
   const handleMapChange = useCallback(
     async (event: React.ChangeEvent<HTMLSelectElement>) => {

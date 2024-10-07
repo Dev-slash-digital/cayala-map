@@ -69,7 +69,8 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
 
   useEffect(() => {
     if (url) {
-      QRCode.toDataURL(url, { type: "image/jpeg", margin: 1 })
+      const fullUrl = `${window.location.origin}${url}`;
+      QRCode.toDataURL(fullUrl, { type: "image/jpeg", margin: 1 })
         .then((dataUrl: string) => {
           setQrCodeUrl(dataUrl);
         })

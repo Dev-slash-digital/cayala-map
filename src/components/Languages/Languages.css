@@ -1,0 +1,31 @@
+.menu-btn-languages{
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    right: 0;
+    top: 58%;
+    background-color: #fff;
+    margin: 10px;
+    border: none;
+    border-radius: 150px;
+    padding: 15px;
+    outline: none;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
+    z-index: 3;
+}
+
+.menu-btn-languages i{
+    font-size: 24px;
+    margin: 0px !important;
+    color: rgb(0, 0, 0);
+}
+
+.i.fa-solid {
+    margin: 0px !important;
+}

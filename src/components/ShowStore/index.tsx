@@ -11,12 +11,12 @@ import QRCode from "qrcode";
 type MenuState = "ShowCategories" | "ShowMenu" | "ShowStore" | "AllHidden";
 
 interface StepAction {
-  bearing: 'Left' | 'Right' | 'Straight' | string; 
+  bearing: 'Left' | 'Right' | 'Straight' | string;
 }
 
 interface Step {
   action: StepAction;
-  description: string; 
+  description: string;
 }
 
 interface ShowStoreProps {
@@ -24,7 +24,7 @@ interface ShowStoreProps {
   menuState: MenuState;
   onMenuStateChange: (newState: MenuState) => void;
   selectedLocation: MappedinLocation | undefined;
-  steps: Step[]; 
+  steps: Step[];
   totalWalkingTime: number;
   mapView: MapView | undefined;
   url: string;
@@ -86,17 +86,41 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
         onMenuStateChange("ShowCategories");
       }}
     >
+      <i className="fa-solid fa-chevron-left"></i>
+    </button>
+  );
+
+  const renderExitButton = () => (
+    <button
+      className="btn-salir"
+      onClick={() => {
+        onMenuStateChange("AllHidden");
+      }}
+    >
       <i className="fa-solid fa-xmark"></i>
     </button>
   );
 
-  return (
-    <div
-      id="show-store" className={`show-store-container ${menuState === "ShowStore" ? "show" : "hide"}`}
+  const renderShowStoreDetails = () => (
+    <button
+      className="btn-regresar"
+      onClick={() => {
+        setShowDirections(!showDirections);
+      }}
     >
+      <i className="fa-solid fa-chevron-left"></i>
+    </button>
+  );
+
+  return (
+    <div id="show-store" className={`show-store-container ${menuState === "ShowStore" ? "show" : "hide"}`}>
+
       {showDirections === false && (
         <div className="containerStoreDetails">
-          {renderBackButton()}
+          <div className="container-header-btns">
+            {renderBackButton()}
+            {renderExitButton()}
+          </div>
           <div className="header-store">
             <div className="logo">
               {selectedLocation?.logo && selectedLocation?.logo.small && (
@@ -149,50 +173,50 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       {showDirections === true && (
         <>
           {totalWalkingTime && (
-            <div className="container_step_by_step">
-              <div className="containerFlexSteps">
-                <div className="containerStepsHeader">
-                  <h3>Paso a paso</h3>
-                  <button
-                    className="btn-regresar"
-                    onClick={() => {
-                      setShowDirections(!showDirections);
-                    }}
-                  >
-                    <i className="fa-solid fa-xmark"></i>
-                  </button>
-                </div>
-
-                {steps.map((step, index) => {
-                  if (!step || !step.action) return null; // Validación adicional
-
-                  return (
-                    <section className="list_steps" key={index}>
-                      {step.action.bearing === 'Left' && (
-                        <i className="fa-solid fa-arrow-left"></i>
-                      )}
-                      {step.action.bearing === 'Right' && (
-                        <i className="fa-solid fa-arrow-right"></i>
-                      )}
-                      {step.action.bearing === 'Straight' && (
-                        <i className="fa-solid fa-arrow-up"></i>
-                      )}
-                      <div>{step.description}</div>
-                    </section>
-                  );
-                })}
-
-                <div className="steps_time">
-                  <p>Tiempo aprox <span>{totalWalkingTime} min</span></p>
-                </div>
-
+            <div className="containerPasos">
+              <div className="container-header-btns">
+                {renderShowStoreDetails()}
+                {renderExitButton()}
               </div>
-              <div className="containerQr">
-                <h3>Escanear QR</h3>
-                {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
-                <p>Escanea el codigo QR en tu celular</p>
+              <div className="container_step_by_step">
+
+                <div className="containerFlexSteps">
+                  <div className="containerStepsHeader">
+                    <h3>Paso a paso</h3>
+                  </div>
+
+                  {steps.map((step, index) => {
+                    if (!step || !step.action) return null; // Validación adicional
+
+                    return (
+                      <section className="list_steps" key={index}>
+                        {step.action.bearing === 'Left' && (
+                          <i className="fa-solid fa-arrow-left"></i>
+                        )}
+                        {step.action.bearing === 'Right' && (
+                          <i className="fa-solid fa-arrow-right"></i>
+                        )}
+                        {step.action.bearing === 'Straight' && (
+                          <i className="fa-solid fa-arrow-up"></i>
+                        )}
+                        <div>{step.description}</div>
+                      </section>
+                    );
+                  })}
+
+                  <div className="steps_time">
+                    <p>Tiempo aprox <span>{totalWalkingTime} min</span></p>
+                  </div>
+
+                </div>
+                <div className="containerQr">
+                  <h3>Escanear QR</h3>
+                  {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
+                  <p>Escanea el codigo QR en tu celular</p>
+                </div>
               </div>
             </div>
+
           )}
         </>
       )}

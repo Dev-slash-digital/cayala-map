@@ -19,17 +19,38 @@
 
 .btn-regresar {
     color: #000;
-    font-size: 16px;
-    position: absolute;
-    right: 5px;
-    top: 5px;
     background-color: transparent;
     border: none;
     padding: 5px 10px;
     border-radius: var(--border-radius-8);
+    cursor: pointer;
 }
 
-.btn-regresar i {
+.btn-salir {
+    background-color: transparent;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #000;
+    border-radius: var(--border-radius-8);
+}
+
+.container-header-btns {
+    width: 100%;
+    max-width: 340px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.btn-regresar .fa-chevron-left {
+    font-size: 20px;
+}
+
+.btn-salir .fa-xmark {
     font-size: 24px;
 }
 
@@ -38,15 +59,15 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    width: 375px;
+    width: 340px;
     height: auto;
     opacity: 1;
     transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
-    padding: 35px 25px 25px 25px;
+    padding: 0px 15px 15px 15px;
     gap: 15px;
-    z-index: 2;
+    z-index: 10;
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     visibility: visible;
@@ -56,21 +77,26 @@
     border-radius: var(--border-radius);
 }
 
+.containerStoreDetails {
+    width: 340px;
+    height: auto;
+}
+
 #show-store.hide {
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: start;
     visibility: hidden;
-    width: 375px;
+    width: 340px;
     height: auto;
     opacity: 0;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
     padding: 25px;
     gap: 15px;
-    z-index: 2;
+    z-index: 10;
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -100%);
 }
@@ -100,10 +126,10 @@
 }
 
 .header-store .logo {
-    width: 100px;
-    height: 100px;
-    max-width: 100px;
-    max-height: 100px;
+    width: 80px;
+    height: 80px;
+    max-width: 80px;
+    max-height: 80px;
     background-color: #ffffff;
     border-radius: 8px;
     display: flex;
@@ -114,11 +140,11 @@
 }
 
 .header-store .logo img {
-    width: 100px;
+    width: 80px;
 }
 
 .header-store h2 {
-    font-size: var(--font-size-large-24);
+    font-size: var(--font-size-large-18);
     font-weight: 600;
     text-transform: uppercase;
     text-align: left;
@@ -132,6 +158,8 @@
     outline: none;
     border: none;
     color: white;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .btn-telefono {
@@ -146,6 +174,8 @@
     border: solid 1px #eeff00;
     outline: none;
     border: none;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 .btn-direccion:hover {
@@ -212,6 +242,7 @@
     width: 100%;
     scrollbar-width: none !important;
 }
+
 .containerFlexSteps {
     display: flex;
     flex-direction: column;
@@ -223,7 +254,7 @@
 }
 
 .steps_time {
-    padding: 1em 0 0 0;   
+    padding: 1em 0 0 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -250,8 +281,8 @@
     margin-top: 5px;
 }
 
-.list_steps i{
-   font-size: 24px;
+.list_steps i {
+    font-size: 24px;
 }
 
 .list_steps div {
@@ -264,22 +295,43 @@
     line-height: 1em;
     text-align: left;
 }
+
 .operationHours .open {
     font-size: 10px;
     font-weight: 600;
     color: rgb(0, 196, 0);
 }
+
 .operationHours .close {
     font-size: 10px;
     font-weight: 600;
     color: rgb(255, 68, 68);
 }
+
 .containerQr {
     width: 100%;
 }
-.containerQr img{
+
+.containerQr img {
     width: 140px;
 }
-.containerQr p{
+
+.containerQr p {
     font-size: 12px;
+}
+
+@media (width <=600px) and (width >=0px) {
+    #show-store.show {
+        opacity: 1;
+        transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
+        top: 30%;
+        left: 50%;
+    }
+
+    #show-store.hide {
+        opacity: 0;
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
+        top: 30%;
+        left: 50%;
+    }
 }

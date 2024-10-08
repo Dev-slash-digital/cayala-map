@@ -35,14 +35,48 @@ export const CategoryList: React.FC<CategoryListProps> = ({
     }
   }, [menuState]);
 
+  const renderBackButton = () => (
+    <button
+      className="btn-regresar"
+      onClick={() => {
+        onBackClick();
+      }}
+    >
+      <i className="fa-solid fa-chevron-left"></i>
+    </button>
+  );
+
+  const renderExitButton = () => (
+    <button
+      className="btn-salir"
+      onClick={() => {
+        onMenuStateChange("AllHidden");
+      }}
+    >
+      <i className="fa-solid fa-xmark"></i>
+    </button>
+  );
+
+  const renderBackMenu = () => (
+    <button
+      className="btn-regresar"
+      onClick={() => {
+        onMenuStateChange("ShowMenu");
+      }}
+    >
+      <i className="fa-solid fa-chevron-left"></i>
+    </button>
+  );
+
   if (selectedCategory) {
     return (
       <div id="categoryList" className="categoryList">
+        <div className="container-header-btns">
+          {renderBackButton()}
+          {renderExitButton()}
+        </div>
         <div className="containerHeaderCategory">
           <h2>{selectedCategory.name}</h2>
-          <button onClick={onBackClick} className="backButton">
-            <i className="fa-solid fa-xmark"></i>
-          </button>
         </div>
         <div className="containerListCategory">
           <ul>
@@ -64,23 +98,19 @@ export const CategoryList: React.FC<CategoryListProps> = ({
             ))}
           </ul>
         </div>
-        <i className="fa-solid fa-sort-down"></i> 
+        <i className="fa-solid fa-sort-down"></i>
       </div>
     );
   }
 
   return (
     <div id="categoryList" className="categoryList">
+      <div className="container-header-btns">
+          {renderBackMenu()}
+          {renderExitButton()}
+        </div>
       <div className="containerHeaderCategory">
         <h2>Categorias</h2>
-        <button
-          className="backButton"
-          onClick={() => {
-            onMenuStateChange("ShowMenu");
-          }}
-        >
-          <i className="fa-solid fa-xmark"></i>
-        </button>
       </div>
       <div className="containerListCategory">
         <ul>

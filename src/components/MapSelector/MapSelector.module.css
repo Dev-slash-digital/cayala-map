@@ -15,6 +15,7 @@
     outline: none;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
     z-index: 3;
+    position: relative;
 }
 
 .menu_btn_levels i {
@@ -32,7 +33,7 @@
     z-index: 2;
     left: 10px;
     top: 50%;
-    background: #ffffff;
+    background: transparent;
     border: none;
     outline: none;
     border-radius: 0.5rem;
@@ -48,4 +49,28 @@
     border: none;
     outline: none;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    top: 25px;
+    left: 95px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.show {
+    opacity: 1;
+    max-height: 200px;
+    overflow: visible;
+}
+
+.transition-slide {
+    transform: translateX(-40px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.transition-slide.show {
+    transform: translateX(0);
+    opacity: 1;
 }

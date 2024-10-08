@@ -15,7 +15,7 @@ import { CategoryList } from "./components/CategoryList";
 import ShowMenuBar from "./components/ShowMenuBar";
 import Languages from "./components/Languages";
 import SearchBar from "./components/SearchBar";
-import MapSelector from "./components/MapSelector"; 
+import MapSelector from "./components/MapSelector";
 import { options, walkingSpeed } from "./constants";
 import { useMapView } from "./hooks/useMapView";
 import { useSelectedLocation } from "./hooks/useSelectedLocation";
@@ -168,8 +168,8 @@ function App() {
 
     let totalDistance = 0;
     const newSteps: Step[] = directions.instructions.map(
-      (instruction: any,) => {  
-       // index: number
+      (instruction: any,) => {
+        // index: number
         const distanceInMeters = Math.round(instruction.distance);
         totalDistance += distanceInMeters;
 
@@ -249,7 +249,7 @@ function App() {
     const params = new URLSearchParams(location.search);
     const fromLocation = params.get("from");
     const toLocation = params.get("to");
-  
+
     if (fromLocation && toLocation && venue) {
       const departureLocation = venue.locations.find(
         (location) => location.name === fromLocation
@@ -257,14 +257,14 @@ function App() {
       const destinationLocation = venue.locations.find(
         (location) => location.name === toLocation
       );
-  
+
       if (departureLocation && destinationLocation) {
         handleLocationSelect(departureLocation);
         handleLocationSelect(destinationLocation);
       }
     }
   }, [location.search, venue, handleLocationSelect]);
-  
+
 
   // Manejar cambio de mapa
   const handleMapChange = useCallback(
@@ -349,7 +349,8 @@ function App() {
       <Languages />
       <MapSelector
         selectedMap={selectedMap}
-        handleMapChange={handleMapChange} // Corregido a handleMapChange
+        handleMapChange={handleMapChange}
+        mapView={mapView} // Pasar la referencia de mapView para poder cambiar los niveles
       />
     </div>
   );

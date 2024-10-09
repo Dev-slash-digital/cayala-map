@@ -89,4 +89,10 @@
     .menu_btn_levels i {
         font-size: 18px;
     }
+    .map_selector {
+        position: absolute;
+        left: 60px;
+        top: 13px;
+        font-size: 12px;
+    }
 }

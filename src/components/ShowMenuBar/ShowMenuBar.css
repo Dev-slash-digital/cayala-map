@@ -1,11 +1,11 @@
-.menu-btn{
+.menu-btn {
     width: 60px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     right: 0;
@@ -20,7 +20,7 @@
     z-index: 3;
 }
 
-.menu-btn i{
+.menu-btn i {
     font-size: 24px;
     margin: 0px !important;
     color: rgb(0, 0, 0);
@@ -28,4 +28,16 @@
 
 .i.fa-solid {
     margin: 0px !important;
+}
+
+@media (width <=600px) and (width >=0px) {
+    .menu-btn {
+        width: 40px;
+        height: 40px;
+        top: 50%;
+    }
+
+    .menu-btn i {
+        font-size: 20px;
+    }
 }

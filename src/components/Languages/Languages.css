@@ -1,11 +1,11 @@
-.menu-btn-languages{
+.menu-btn-languages {
     width: 60px;
     height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    display:flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     right: 0;
@@ -20,7 +20,7 @@
     z-index: 3;
 }
 
-.menu-btn-languages i{
+.menu-btn-languages i {
     font-size: 24px;
     margin: 0px !important;
     color: rgb(0, 0, 0);
@@ -28,4 +28,17 @@
 
 .i.fa-solid {
     margin: 0px !important;
+}
+
+@media (width <=600px) and (width >=0px) {
+    .menu-btn-languages {
+        width: 40px;
+        height: 40px;
+        top: 50%;
+        margin-top: 60px;
+    }
+
+    .menu-btn-languages i {
+        font-size: 20px;
+    }
 }

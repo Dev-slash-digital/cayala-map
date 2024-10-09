@@ -1,21 +1,28 @@
 .menu_btn_levels {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
-    left: 0;
-    top: 50%;
     background-color: #fff;
-    margin: 10px;
     border: none;
     border-radius: 150px;
     padding: 15px;
     outline: none;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
-    z-index: 3;
+    z-index: 4;
     position: relative;
+    margin: 10px;
+}
+
+.map_selector_container {
+    position: absolute;
+    z-index: 3;
+    left: 0px;
+    top: 50%;
+    background-color: transparent;
+    border: none;
+    outline: none;
 }
 
 .menu_btn_levels i {
@@ -26,17 +33,6 @@
 
 .i.fa-solid {
     margin: 0px !important;
-}
-
-.map_selector_container {
-    position: absolute;
-    z-index: 2;
-    left: 10px;
-    top: 50%;
-    background: transparent;
-    border: none;
-    outline: none;
-    border-radius: 0.5rem;
 }
 
 .map_selector {
@@ -50,27 +46,45 @@
     outline: none;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
     position: absolute;
-    top: 25px;
-    left: 95px;
+    left: 60px;
+    top: 10px;
     opacity: 0;
-    max-height: 0;
+    max-height: auto;
     overflow: hidden;
     transition: all 0.3s ease;
 }
 
 .show {
     opacity: 1;
-    max-height: 200px;
+    max-height: auto;
     overflow: visible;
 }
 
-.transition-slide {
+.transition_slide {
     transform: translateX(-40px);
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0;
 }
 
-.transition-slide.show {
+.transition_slide.show {
     transform: translateX(0);
     opacity: 1;
+}
+
+@media (max-width: 600px) {
+    .map_selector_container {
+        width: auto;
+        height: auto;
+        top: 50%;
+    }
+
+    .menu_btn_levels {
+        width: 40px;
+        height: 40px;
+        padding: 0px;
+    }
+
+    .menu_btn_levels i {
+        font-size: 18px;
+    }
 }

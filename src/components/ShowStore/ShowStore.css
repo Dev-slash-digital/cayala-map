@@ -114,7 +114,7 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    gap: 10px;
+    gap: 5px;
 }
 
 .container-btn {
@@ -202,7 +202,7 @@
 }
 
 .container-detalles ul {
-    width: 375px;
+    width: 340px;
     list-style: none;
     display: flex;
     flex-wrap: wrap;
@@ -325,6 +325,8 @@
         transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
         top: 20%;
         left: 50%;
+        width: 280px;
+        gap: 5px;
     }
 
     #show-store.hide {
@@ -332,5 +334,62 @@
         transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
         top: 20%;
         left: 50%;
+        width: 280px;
+        gap: 5px;
+    }
+
+    .containerStoreDetails {
+        width: 280px;
+    }
+
+    .container-header-btns {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .container-btn {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: start;
+        gap: 10px;
+    }
+
+    .btn-direccion,
+    .btn-telefono {
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+
+    .header-store h2 {
+        font-size: var(--font-size-large-16);
+    }
+
+    .container-detalles h4 {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .container-detalles ul {
+        width: 280px;
+    }
+
+    .container-detalles ul li {
+        font-size: 10px;
+        font-weight: 600;
+    }
+
+    .btn-regresar .fa-chevron-left {
+        font-size: 18px;
+    }
+
+    .btn-salir .fa-xmark {
+        font-size: 22px;
+    }
+
+    .descripcion-store p {
+        font-size: 10px;
+        font-weight: 400;
+        text-align: left;
     }
 }

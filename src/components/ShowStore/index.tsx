@@ -4,6 +4,8 @@ import {
   MappedinLocation,
   MapView,
   CAMERA_EASING_MODE,
+  MappedinNode,
+  MappedinDirections,
 } from "@mappedin/mappedin-js";
 import "@mappedin/mappedin-js/lib/mappedin.css";
 import QRCode from "qrcode";
@@ -28,6 +30,7 @@ interface ShowStoreProps {
   totalWalkingTime: number;
   mapView: MapView | undefined;
   url: string;
+  directions: MappedinDirections | undefined; 
 }
 
 export const ShowStore: React.FC<ShowStoreProps> = ({
@@ -38,9 +41,9 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   steps,
   totalWalkingTime,
   mapView,
-  url
+  url,
+  directions,
 }) => {
-
   const [showDirections, setShowDirections] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState("");
 
@@ -59,7 +62,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
           polygons: selectedLocation.polygons,
         },
         {
-          minZoom: 2000,
+          minZoom: 2000, 
           duration: 1000,
           easing: CAMERA_EASING_MODE.EASE_IN_OUT,
         }
@@ -77,6 +80,93 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
         .catch((err) => console.error(err));
     }
   }, [url]);
+
+  // Dibujar la ruta una sola vez cuando las direcciones estén disponibles
+  useEffect(() => {
+    if (mapView && directions) {
+      mapView.Journey.draw(directions, {
+        pathOptions: {
+          color: "green",
+          displayArrowsOnPath: true,
+        },
+      });
+
+      
+      mapView.Camera.focusOn(
+        {
+          nodes: directions.path,
+        },
+        {
+          minZoom: 4000, 
+          duration: 1000,
+          easing: CAMERA_EASING_MODE.EASE_IN_OUT,
+        }
+      )
+        .then(() => {
+          console.log("Cámara ajustada para mostrar toda la ruta");
+        })
+        .catch((error) => {
+          console.error("Error al ajustar la cámara para toda la ruta:", error);
+        });
+    } 
+  }, [mapView, directions]);
+
+  // Función para centrar la cámara en un nodo específico
+  const focusOnNode = (node: MappedinNode) => {
+    if (!mapView) {
+      console.error("mapView no está definido.");
+      return;
+    } 
+
+    console.log("Centrando la cámara en el nodo:", node.id, node.x, node.y);
+
+    mapView.Camera.focusOn(
+      {
+        nodes: [node],
+      },
+      {
+        minZoom: 500, // Aumentado para mayor zoom
+        duration: 1500, // Aumentado la duración para una animación más suave
+        easing: CAMERA_EASING_MODE.EASE_IN_OUT,
+      }
+    )
+      .then(() => {
+        console.log("Cámara animada a la posición del paso");
+      })
+      .catch((error) => {
+        console.error("Error durante la animación de la cámara:", error);
+      });
+  };
+
+  // Función para manejar el clic en los pasos
+  const handleStepClick = (stepIndex: number) => {
+    if (!mapView || !directions || !directions.path || directions.path.length === 0) {
+      console.error("mapView, directions o directions.path no están disponibles.");
+      return;
+    }
+
+    // Obtener la instrucción correspondiente al paso
+    const instruction = directions.instructions[stepIndex];
+    if (!instruction || !instruction.node) {
+      console.error("Instrucción o nodo del paso no encontrado.");
+      return;
+    }
+
+    // Asegurarse de que instruction.node sea una cadena (ID del nodo)
+    const nodeId = typeof instruction.node === 'string' ? instruction.node : instruction.node.id;
+
+    // Encontrar el nodo en el path que corresponde a la instrucción
+    const targetNode = directions.path.find(node => node.id === nodeId);
+    if (!targetNode) {
+      console.error("targetNode no encontrado en directions.path");
+      return;
+    }
+
+    console.log("Clic en el paso:", stepIndex, targetNode);
+
+    // Centrar la cámara en el nodo objetivo
+    focusOnNode(targetNode);
+  };
 
   const renderBackButton = () => (
     <button
@@ -124,7 +214,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
           <div className="header-store">
             <div className="logo">
               {selectedLocation?.logo && selectedLocation?.logo.small && (
-                <img src={selectedLocation?.logo.small} alt={`${selectedLocation.name} logo`} />
+                <img src={selectedLocation.logo.small} alt={`${selectedLocation.name} logo`} />
               )}
             </div>
             <div className="container-header">
@@ -186,10 +276,10 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                   </div>
 
                   {steps.map((step, index) => {
-                    if (!step || !step.action) return null; // Validación adicional
+                    if (!step || !step.action) return null;
 
                     return (
-                      <section className="list_steps" key={index}>
+                      <section className="list_steps" key={index} onClick={() => handleStepClick(index)}>
                         {step.action.bearing === 'Left' && (
                           <i className="fa-solid fa-arrow-left"></i>
                         )}

@@ -168,6 +168,7 @@ function App() {
 
     let totalDistance = 0;
     const newSteps: Step[] = directions.instructions.map(
+
       (instruction: any,) => {
         // index: number
         const distanceInMeters = Math.round(instruction.distance);
@@ -183,7 +184,7 @@ function App() {
         };
       }
     );
-
+    console.log(directions);
     setSteps(newSteps);
     setTotalWalkingTime(
       Number(calculateWalkingTime(totalDistance, walkingSpeed))
@@ -272,13 +273,12 @@ function App() {
       const selectedOption = event.target.value;
       setSelectedMap(selectedOption);
 
-      // Limpiar estados anteriores
       setDeparture(null);
       setDestination(null);
       setSteps([]);
       setTotalWalkingTime(0);
       setSelectedLocation(undefined);
-      handleMenuStateChange("AllHidden"); // Opcional: Cierra cualquier menú abierto
+      handleMenuStateChange("AllHidden"); 
 
       if (!mapView) return;
 
@@ -311,7 +311,7 @@ function App() {
         ref={elementRef}
       ></div>
       <SearchBar
-        setSelectedLocation={handleLocationSelect} // Pasar handleLocationSelect directamente
+        setSelectedLocation={handleLocationSelect} 
         menuState={menuState}
         onMenuStateChange={handleMenuStateChange}
         handleCategoryClick={() => {
@@ -330,13 +330,16 @@ function App() {
         totalWalkingTime={totalWalkingTime}
         mapView={mapView}
         url={location.search}
+        directions={departure && destination ? departure.directionsTo(destination) : undefined} // 
       />
+
+
       <CategoryList
         menuState={menuState}
         onMenuStateChange={handleMenuStateChange}
         categories={categories}
         onCategorySelect={(category) => setSelectedCategory(category)}
-        onLocationSelect={handleLocationSelect} // Pasar la función completa
+        onLocationSelect={handleLocationSelect} 
         selectedCategory={selectedCategory}
         onBackClick={() => {
           setSelectedCategory(null);
@@ -350,7 +353,7 @@ function App() {
       <MapSelector
         selectedMap={selectedMap}
         handleMapChange={handleMapChange}
-        mapView={mapView} // Pasar la referencia de mapView para poder cambiar los niveles
+        mapView={mapView} 
       />
     </div>
   );

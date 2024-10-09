@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./ShowStore.css";
 import {
   MappedinLocation,
@@ -30,7 +30,7 @@ interface ShowStoreProps {
   totalWalkingTime: number;
   mapView: MapView | undefined;
   url: string;
-  directions: MappedinDirections | undefined; 
+  directions: MappedinDirections | undefined;
 }
 
 export const ShowStore: React.FC<ShowStoreProps> = ({
@@ -62,7 +62,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
           polygons: selectedLocation.polygons,
         },
         {
-          minZoom: 2000, 
+          minZoom: 2000,
           duration: 1000,
           easing: CAMERA_EASING_MODE.EASE_IN_OUT,
         }
@@ -91,13 +91,13 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
         },
       });
 
-      
+
       mapView.Camera.focusOn(
         {
           nodes: directions.path,
         },
         {
-          minZoom: 4000, 
+          minZoom: 4000,
           duration: 1000,
           easing: CAMERA_EASING_MODE.EASE_IN_OUT,
         }
@@ -108,15 +108,46 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
         .catch((error) => {
           console.error("Error al ajustar la cámara para toda la ruta:", error);
         });
-    } 
+    }
   }, [mapView, directions]);
+
+  const showStoreRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const showStore = showStoreRef.current;
+    if (showStore) {
+      let isDragging = false;
+      let offsetX: number, offsetY: number;
+      const handleMouseDown = (e: MouseEvent) => {
+        isDragging = true;
+        offsetX = showStore.offsetLeft - e.clientX;
+        offsetY = showStore.offsetTop - e.clientY;
+      };
+      const handleMouseMove = (e: MouseEvent) => {
+        if (!isDragging) return;
+        showStore.style.left = (e.clientX + offsetX) + "px";
+        showStore.style.top = (e.clientY + offsetY) + "px";
+      };
+      const handleMouseUp = () => {
+        isDragging = false;
+      };
+      showStore.addEventListener("mousedown", handleMouseDown);
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      return () => {
+        showStore.removeEventListener("mousedown", handleMouseDown);
+        document.removeEventListener("mousemove", handleMouseMove);
+        document.removeEventListener("mouseup", handleMouseUp);
+      };
+    }
+  }, []);
 
   // Función para centrar la cámara en un nodo específico
   const focusOnNode = (node: MappedinNode) => {
     if (!mapView) {
       console.error("mapView no está definido.");
       return;
-    } 
+    }
 
     console.log("Centrando la cámara en el nodo:", node.id, node.x, node.y);
 
@@ -125,8 +156,8 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
         nodes: [node],
       },
       {
-        minZoom: 500, // Aumentado para mayor zoom
-        duration: 1500, // Aumentado la duración para una animación más suave
+        minZoom: 500,
+        duration: 1500,
         easing: CAMERA_EASING_MODE.EASE_IN_OUT,
       }
     )
@@ -152,10 +183,8 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       return;
     }
 
-    // Asegurarse de que instruction.node sea una cadena (ID del nodo)
     const nodeId = typeof instruction.node === 'string' ? instruction.node : instruction.node.id;
 
-    // Encontrar el nodo en el path que corresponde a la instrucción
     const targetNode = directions.path.find(node => node.id === nodeId);
     if (!targetNode) {
       console.error("targetNode no encontrado en directions.path");
@@ -164,7 +193,6 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
 
     console.log("Clic en el paso:", stepIndex, targetNode);
 
-    // Centrar la cámara en el nodo objetivo
     focusOnNode(targetNode);
   };
 
@@ -203,7 +231,12 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   );
 
   return (
-    <div id="show-store" className={`show-store-container ${menuState === "ShowStore" ? "show" : "hide"}`}>
+    <div
+      id="show-store"
+      className={`show-store-container ${menuState === "ShowStore" ? "show" : "hide"}`}
+      ref={showStoreRef}
+      style={{ position: "absolute" }}
+    >
 
       {showDirections === false && (
         <div className="containerStoreDetails">

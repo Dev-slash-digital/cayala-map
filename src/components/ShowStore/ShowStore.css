@@ -67,7 +67,7 @@
     gap: 15px;
     z-index: 10;
     position: absolute;
-    top: 30%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     visibility: visible;
@@ -96,7 +96,7 @@
     gap: 15px;
     z-index: 10;
     position: absolute;
-    top: 30%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -100%);
 }
@@ -323,14 +323,14 @@
     #show-store.show {
         opacity: 1;
         transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
-        top: 30%;
+        top: 20%;
         left: 50%;
     }
 
     #show-store.hide {
         opacity: 0;
         transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
-        top: 30%;
+        top: 20%;
         left: 50%;
     }
 }

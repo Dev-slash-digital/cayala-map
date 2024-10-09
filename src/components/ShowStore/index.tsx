@@ -114,30 +114,46 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   const showStoreRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    
     const showStore = showStoreRef.current;
+
     if (showStore) {
+
       let isDragging = false;
       let offsetX: number, offsetY: number;
-      const handleMouseDown = (e: MouseEvent) => {
+
+      const handleStart = (e: MouseEvent | TouchEvent) => {
         isDragging = true;
-        offsetX = showStore.offsetLeft - e.clientX;
-        offsetY = showStore.offsetTop - e.clientY;
+        const clientX = e instanceof MouseEvent ? e.clientX : e
+.touches[0].clientX;
+        const clientY = e instanceof MouseEvent ? e.clientY : e.touches[0].clientY;
+        offsetX = showStore.offsetLeft - clientX;
+        offsetY = showStore.offsetTop - clientY;
       };
-      const handleMouseMove = (e: MouseEvent) => {
+      const handleMove = (e: MouseEvent | TouchEvent) => {
         if (!isDragging) return;
-        showStore.style.left = (e.clientX + offsetX) + "px";
-        showStore.style.top = (e.clientY + offsetY) + "px";
+        const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
+        const clientY = e instanceof MouseEvent ? e.clientY : e.touches[0].clientY;
+        showStore.style.left = (clientX + offsetX) + "px";
+        showStore.style.top = (clientY + offsetY) + "px";
       };
-      const handleMouseUp = () => {
+      const handleEnd = () => {
         isDragging = false;
       };
-      showStore.addEventListener("mousedown", handleMouseDown);
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      showStore.addEventListener("mousedown", handleStart);
+      showStore.addEventListener("touchstart", handleStart);
+      document.addEventListener("mousemove", handleMove);
+      document.addEventListener("touchmove", handleMove, { passive: false });
+      document.addEventListener("mouseup", handleEnd);
+      
+document.addEventListener("touchend", handleEnd);
       return () => {
-        showStore.removeEventListener("mousedown", handleMouseDown);
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
+        showStore.removeEventListener("mousedown", handleStart);
+        showStore.removeEventListener("touchstart", handleStart);
+        document.removeEventListener("mousemove", handleMove);
+        document.removeEventListener("touchmove", handleMove);
+        document.removeEventListener("mouseup", handleEnd);
+        document.removeEventListener("touchend", handleEnd);
       };
     }
   }, []);

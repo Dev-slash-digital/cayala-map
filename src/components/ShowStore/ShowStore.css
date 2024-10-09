@@ -253,6 +253,12 @@
     scrollbar-width: none !important;
 }
 
+.containerStepsHeader h3 {
+    font-size: 16px;
+    font-weight: 600;
+    ;
+}
+
 .steps_time {
     padding: 1em 0 0 0;
     display: flex;
@@ -311,6 +317,12 @@
     width: 100%;
 }
 
+.containerQr h3 {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
 .containerQr img {
     width: 140px;
 }
@@ -345,6 +357,7 @@
     .container-header-btns {
         width: 100%;
         max-width: 280px;
+        margin-bottom: 0px;
     }
 
     .container-btn {
@@ -391,5 +404,34 @@
         font-size: 10px;
         font-weight: 400;
         text-align: left;
+    }
+
+    .list_steps i {
+        font-size: 18px;
+    }
+
+    .containerQr {
+        width: 80%;
+    }
+
+    .containerQr img {
+        width: 100px;
+    }
+
+    .containerQr p {
+        font-size: 12px;
+    }
+
+    .containerQr h3 {
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .containerQr p {
+        width: 100px;
+        font-size: 10px;
+        text-align: center;
+        margin: 0 auto;
     }
 }

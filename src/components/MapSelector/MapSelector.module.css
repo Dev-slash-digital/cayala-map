@@ -7,7 +7,7 @@
     background-color: #fff;
     border: none;
     border-radius: 150px;
-    padding: 15px;
+    padding: 0px;
     outline: none;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
     z-index: 4;
@@ -16,6 +16,7 @@
 }
 
 .map_selector_container {
+    max-width: 60px;
     position: absolute;
     z-index: 3;
     left: 0px;
@@ -46,8 +47,8 @@
     outline: none;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
     position: absolute;
-    left: 60px;
-    top: 10px;
+    left: 80px;
+    top: 20px;
     opacity: 0;
     max-height: auto;
     overflow: hidden;
@@ -74,6 +75,7 @@
 @media (max-width: 600px) {
     .map_selector_container {
         width: auto;
+        max-width: 40px;
         height: auto;
         top: 50%;
     }

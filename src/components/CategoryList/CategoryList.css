@@ -34,7 +34,7 @@
 
 .container-header-btns {
   width: 100%;
-  max-width: 340px;
+  max-width: 300px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -56,7 +56,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 340px;
+  width: 300px;
   height: auto;
   opacity: 1;
   transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
@@ -80,7 +80,7 @@
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  width: 340px;
+  width: 300px;
   height: auto;
   opacity: 0;
   transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
@@ -127,6 +127,7 @@
   padding: 12px 15px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  font-size: 14px;
 }
 
 .categoryList li:last-child {
@@ -172,9 +173,44 @@
   font-size: 14px;
   font-family: SF-Pro-Medium, Inter-Medium;
   letter-spacing: 0px;
-  line-height: 1.267em;
+  line-height: 1em;
   font-weight: 500;
   display: flex;
   flex-direction: column;
   min-width: 0px;
+}
+
+@media (width <=600px) and (width >=0px) {
+
+  .categoryList.hide,
+  .categoryList.show {
+    width: 280px;
+    padding: 0px 15px;
+    gap: 5px;
+  }
+
+  .categoryList h2 {
+    font-size: 1rem;
+  }
+
+  .categoryList li {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .items_location p {
+    font-size: 12px;
+  }
+
+  .fa-sort-down {
+    margin-bottom: 10px;
+  }
+
+  .btn-regresar .fa-chevron-left {
+    font-size: 18px;
+  }
+
+  .btn-salir .fa-xmark {
+    font-size: 22px;
+  }
 }

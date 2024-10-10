@@ -29,7 +29,7 @@
 .menu_btn_levels i {
     font-size: 24px;
     margin: 0px !important;
-    color: rgb(0, 0, 0);
+    color: #000000;
 }
 
 .i.fa-solid {
@@ -37,6 +37,7 @@
 }
 
 .map_selector {
+    width: 0px;
     padding: 0.5rem;
     border-radius: 0.5rem;
     background: #ffffff;
@@ -56,6 +57,7 @@
 }
 
 .show {
+    width: auto;
     opacity: 1;
     max-height: auto;
     overflow: visible;

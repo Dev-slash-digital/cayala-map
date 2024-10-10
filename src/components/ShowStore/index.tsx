@@ -86,8 +86,13 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     if (mapView && directions) {
       mapView.Journey.draw(directions, {
         pathOptions: {
-          color: "green",
+          color: "#1216ff",
           displayArrowsOnPath: true,
+          interactive: true,
+          pulseColor: "white",
+          showPulse: true,
+          farZoom: 10000,
+          farRadius: 2.3,
         },
       });
 
@@ -185,14 +190,12 @@ document.addEventListener("touchend", handleEnd);
       });
   };
 
-  // Función para manejar el clic en los pasos
   const handleStepClick = (stepIndex: number) => {
     if (!mapView || !directions || !directions.path || directions.path.length === 0) {
       console.error("mapView, directions o directions.path no están disponibles.");
       return;
     }
 
-    // Obtener la instrucción correspondiente al paso
     const instruction = directions.instructions[stepIndex];
     if (!instruction || !instruction.node) {
       console.error("Instrucción o nodo del paso no encontrado.");

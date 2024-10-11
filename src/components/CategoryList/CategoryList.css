@@ -39,8 +39,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  margin-top: 10px;
 }
 
 .btn-regresar .fa-chevron-left {
@@ -57,11 +55,11 @@
   justify-content: center;
   align-items: center;
   width: 300px;
-  height: auto;
+  height: 50vh;
   opacity: 1;
   transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
-  padding: 25px;
-  gap: 15px;
+  padding: 15px;
+  gap: 5px;
   z-index: 3;
   position: absolute;
   top: 50%;
@@ -84,8 +82,8 @@
   height: auto;
   opacity: 0;
   transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
-  padding: 25px;
-  gap: 10px;
+  padding: 15px;
+  gap: 5px;
   z-index: 3;
   position: absolute;
   top: 50%;
@@ -113,7 +111,7 @@
 }
 
 .categoryList h2 {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: #333;
 }
 
@@ -171,7 +169,6 @@
 .items_location p {
   margin-left: 1rem;
   font-size: 14px;
-  font-family: SF-Pro-Medium, Inter-Medium;
   letter-spacing: 0px;
   line-height: 1em;
   font-weight: 500;
@@ -185,7 +182,7 @@
   .categoryList.hide,
   .categoryList.show {
     width: 280px;
-    padding: 0px 15px;
+    padding: 10px 15px;
     gap: 5px;
   }
 

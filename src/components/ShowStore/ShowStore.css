@@ -42,8 +42,8 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    margin-top: 10px;
+    margin-bottom: 5px;
+
 }
 
 .btn-regresar .fa-chevron-left {
@@ -51,7 +51,7 @@
 }
 
 .btn-salir .fa-xmark {
-    font-size: 24px;
+    font-size: 22px;
 }
 
 #show-store.show {
@@ -63,8 +63,8 @@
     height: auto;
     opacity: 1;
     transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
-    padding: 0px 15px 15px 15px;
-    gap: 15px;
+    padding: 5px 15px 15px 15px;
+    gap: 10px;
     z-index: 10;
     position: absolute;
     top: 20%;
@@ -92,8 +92,8 @@
     height: auto;
     opacity: 0;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
-    padding: 25px;
-    gap: 15px;
+    padding: 5px 15px 15px 15px;
+    gap: 10px;
     z-index: 10;
     position: absolute;
     top: 20%;
@@ -105,24 +105,26 @@
     display: flex;
     flex-direction: row;
     justify-content: start;
-    align-items: start;
+    align-items: center;
     gap: 10px;
+    height: 100px;
 }
 
 .container-header {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
     align-items: start;
     gap: 5px;
+    height: 100px;
 }
 
 .container-btn {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
 }
 
 .header-store .logo {
@@ -160,31 +162,36 @@
     color: white;
     font-size: 12px;
     font-weight: 500;
+    width: 110px;
 }
 
 .btn-telefono {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 0px;
     padding: 10px 10px;
     border-radius: 8px;
     background-color: #eeff00;
-    border: solid 1px #eeff00;
+    border: solid 1px #000000;
     outline: none;
     border: none;
     font-size: 12px;
     font-weight: 500;
+    color: black;
+    width: 110px;
 }
 
 .btn-direccion:hover {
     background-color: white;
     color: black;
+    border: solid 1px #000000;
 }
 
 .btn-telefono:hover {
     background-color: white;
+    border: solid 1px #000000;
 }
 
 .container-detalles {
@@ -192,12 +199,12 @@
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 5px;
+    margin-top: 5px;
 }
 
 .container-detalles h4 {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -214,10 +221,10 @@
 .container-detalles ul li {
     font-size: 12px;
     padding: 5px;
-    background-color: #c7c7c7e0;
+    background-color: #dadadae0;
     border-radius: 25px;
-    min-width: 120px;
-    font-weight: 400;
+    min-width: 100px;
+    font-weight: 500;
     color: #000;
 }
 
@@ -226,7 +233,7 @@
 }
 
 .descripcion-store p {
-    font-size: 12px;
+    font-size: 10px;
     text-align: left;
 }
 
@@ -234,11 +241,10 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     gap: 10px;
     height: auto;
-    max-height: 30vh;
-    overflow-x: hidden;
+    max-height: auto;
     width: 100%;
     scrollbar-width: none !important;
 }
@@ -247,8 +253,7 @@
     display: flex;
     flex-direction: column;
     height: auto;
-    max-height: 30vh;
-    overflow-x: hidden;
+    max-height: auto;
     width: 100%;
     scrollbar-width: none !important;
 }
@@ -272,6 +277,7 @@
     font-weight: normal;
     font-size: 14px;
     line-height: 1.2em;
+    text-align: left;
 }
 
 .list_steps {
@@ -286,8 +292,19 @@
     margin-top: 5px;
 }
 
+.selected-step {
+    background-color: #0105e9;
+    color: white;
+    font-size: 10px;
+}
+
+.list_steps:hover {
+    background-color: #f0f0f0;
+    color: black;
+}
+
 .list_steps i {
-    font-size: 24px;
+    font-size: 15px;
 }
 
 .list_steps div {
@@ -295,20 +312,27 @@
     font-size: 10px;
 }
 
-.operationHours span {
+.operationHours {
     font-size: 10px;
-    line-height: 1em;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: start;
+    align-items: start;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.operationHours span {
     text-align: left;
 }
 
-.operationHours .open {
-    font-size: 10px;
+.operationHours .open-label {
     font-weight: 600;
     color: rgb(0, 196, 0);
 }
 
-.operationHours .close {
-    font-size: 10px;
+.operationHours .close-label {
     font-weight: 600;
     color: rgb(255, 68, 68);
 }
@@ -328,7 +352,9 @@
 }
 
 .containerQr p {
+    width: 140px;
     font-size: 12px;
+    margin: 0 auto;
 }
 
 @media (width <=600px) and (width >=0px) {
@@ -372,6 +398,7 @@
     .btn-telefono {
         padding: 5px 10px;
         font-size: 10px;
+        width: 120px;
     }
 
     .header-store h2 {

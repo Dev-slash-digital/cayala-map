@@ -3,7 +3,7 @@ import styles from "./MapSelector.module.css";
 
 interface MapSelectorProps {
   selectedMap: string;
-  handleMapChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  handleMapChange: (mapName: string) => void;
   mapView: any;
 }
 
@@ -22,23 +22,29 @@ const MapSelector: React.FC<MapSelectorProps> = ({ selectedMap, handleMapChange,
     setShowSelector(!showSelector);
   };
 
+  const handleSelectMap = (mapName: string) => {
+    handleMapChange(mapName);
+    setShowSelector(false);
+  };
+
   return (
     <div className={styles['map_selector_container']}>
       <div className={styles['menu_btn_levels']} onClick={handleToggleSelector}>
         <i className="fa-solid fa-layer-group"></i>
       </div>
-      <select
-        aria-label="Select map"
-        className={`${styles['map_selector']} ${showSelector ? styles.show : ''} ${styles['transition_slide']}`}
-        value={selectedMap}
-        onChange={handleMapChange}
-      >
-        {availableMaps.map((mapName) => (
-          <option key={mapName} value={mapName}>
-            {mapName}
-          </option>
-        ))}
-      </select>
+      {showSelector && (
+        <ul className={`${styles['map_selector']} ${styles.show}`} id="mapSelector">
+          {availableMaps.map((mapName) => (
+            <li 
+              key={mapName} 
+              className={`${styles['map_item']} ${selectedMap === mapName ? styles.selected : ''}`}
+              onClick={() => handleSelectMap(mapName)}
+            >
+              {mapName}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };

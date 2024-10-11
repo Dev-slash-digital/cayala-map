@@ -1,19 +1,42 @@
 import "./Languages.css";
+import { useState } from "react";
 
-//type MenuState = "ShowCategories" | "ShowMenu" | "ShowStore" | "AllHidden";
-
-interface LanguajesProps {
-  
+interface LanguagesProps {
+  onLanguageChange: (lang: string) => void;
+  currentLanguage: string;
 }
-function Languajes({  }: LanguajesProps) {
-  
+
+function Languages({ onLanguageChange, currentLanguage }: LanguagesProps) {
+  const [showDropdown, setShowDropdown] = useState(false);
+
+  const languages = ["es", "en"]; 
+
   return (
-    <div>
-      <button className="menu-btn-languages">
-          <i className="fa-solid fa-earth-americas"></i>
+    <div className="language-selector">
+      <button 
+        className="menu-btn-languages" 
+        onClick={() => setShowDropdown(!showDropdown)}
+      >
+        <i className="fa-solid fa-earth-americas"></i>
       </button>
+      {showDropdown && (
+        <ul className="language-dropdown">
+          {languages.map((lang) => (
+            <li 
+              key={lang} 
+              onClick={() => {
+                onLanguageChange(lang);
+                setShowDropdown(false);
+              }}
+              className={currentLanguage === lang ? "active" : ""}
+            >
+              {lang.toUpperCase()}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
 
-export default Languajes;
+export default Languages;

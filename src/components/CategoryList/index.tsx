@@ -84,7 +84,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({
               <li
                 className="locationItem"
                 key={location.id}
-                onClick={() => { onLocationSelect(location); }} // Eliminada llamada a onMenuStateChange
+                onClick={() => { onLocationSelect(location); }}
               >
                 <div>
                   <div className="items_location">

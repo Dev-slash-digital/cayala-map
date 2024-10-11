@@ -37,7 +37,7 @@
 }
 
 .map_selector {
-    width: 0px;
+    width: 150px;
     padding: 0.5rem;
     border-radius: 0.5rem;
     background: #ffffff;
@@ -49,29 +49,35 @@
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.25);
     position: absolute;
     left: 80px;
-    top: 20px;
+    top: 0px;
     opacity: 0;
     max-height: auto;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transform: translateX(-50px);
+    transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-.show {
-    width: auto;
+.map_item {
+    padding: 8px 0px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.map_item:hover {
+    background-color: white;
+}
+
+.map_item.selected {
+    background-color: white;
+    font-weight: bold;
+}
+
+.map_selector.show {
+    width: 100px;
     opacity: 1;
-    max-height: auto;
-    overflow: visible;
-}
-
-.transition_slide {
-    transform: translateX(-40px);
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
-}
-
-.transition_slide.show {
     transform: translateX(0);
-    opacity: 1;
+    transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out, width 0.3s ease-in-out;
+
 }
 
 @media (max-width: 600px) {
@@ -88,13 +94,20 @@
         padding: 0px;
     }
 
-    .menu_btn_levels i {
-        font-size: 18px;
-    }
     .map_selector {
         position: absolute;
         left: 60px;
-        top: 13px;
+        top: 0px;
         font-size: 12px;
+    }
+
+    .map_item {
+        padding: 8px 0px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .menu_btn_levels i {
+        font-size: 18px;
     }
 }

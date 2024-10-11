@@ -1,5 +1,3 @@
-// src/App.tsx
-
 import "./App.css";
 import { useCallback, useEffect, useState, useRef } from "react";
 import {
@@ -8,6 +6,7 @@ import {
   MappedinCategory,
   MappedinLocation,
   MappedinPolygon,
+  GET_VENUE_EVENT,
 } from "@mappedin/mappedin-js";
 import "@mappedin/mappedin-js/lib/mappedin.css";
 
@@ -29,6 +28,7 @@ function App() {
   type MenuState = "ShowCategories" | "ShowMenu" | "ShowStore" | "AllHidden";
 
   const [menuState, setMenuState] = useState<MenuState>("AllHidden");
+  const [currentLanguage, setCurrentLanguage] = useState("es");
 
   const handleMenuStateChange = useCallback((newState: MenuState) => {
     setMenuState(newState);
@@ -79,8 +79,10 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Ref para rastrear la carga inicial
   const isInitialLoad = useRef(true);
+
+  console.log(venue?.venue.languages); 
+  console.log(venue?.currentLanguage); 
 
   useEffect(() => {
     if (venue) {
@@ -91,7 +93,6 @@ function App() {
     }
   }, [venue]);
 
-  // Función para determinar el bearing desde la instrucción
   const getBearingFromInstruction = useCallback((instruction: string): 'Left' | 'Right' | 'Straight' => {
     const instructionLower = instruction.toLowerCase();
     if (instructionLower.includes('izquierda') || instructionLower.includes('left')) {
@@ -103,23 +104,19 @@ function App() {
     return 'Straight';
   }, []);
 
-  // Función centralizada para manejar la selección de una ubicación
   const handleLocationSelect = useCallback((location: MappedinLocation) => {
-    // 1. Encontrar la ubicación de Microsoft
     const microsoftLocation = venue?.locations.find(loc => loc.name === "Microsoft");
 
     if (!microsoftLocation || microsoftLocation.polygons.length === 0) {
-      console.error("Microsoft location not found or missing polygons.");
+      console.error("Ubicación de Microsoft no encontrada o faltan polígonos.");
       return;
     }
 
-    // 2. Establecer departure y destination
     const microsoftPolygon = microsoftLocation.polygons[0];
     setDeparture(microsoftPolygon);
 
     if (!location.polygons || location.polygons.length === 0) {
-      console.error("Selected location does not have polygons.");
-      // Aún así, establece selectedLocation y muestra el store sin generar ruta
+      console.error("La ubicación seleccionada no tiene polígonos.");
       setSelectedLocation(location);
       handleMenuStateChange("ShowStore");
       navigate(`/?from=Microsoft&to=${encodeURIComponent(location.name)}`);
@@ -128,17 +125,13 @@ function App() {
     const destinationPolygon = location.polygons[0];
     setDestination(destinationPolygon);
 
-    // 3. Actualizar el estado de la aplicación
     setSelectedLocation(location);
 
-    // 4. Cambiar el estado del menú
     handleMenuStateChange("ShowStore");
 
-    // 5. Actualizar la URL
     navigate(`/?from=Microsoft&to=${encodeURIComponent(location.name)}`);
   }, [venue, navigate, handleMenuStateChange]);
 
-  // Manejar la generación de las rutas una vez que departure y destination están establecidos
   useEffect(() => {
     if (!mapView || !departure || !destination) {
       setSteps([]);
@@ -167,31 +160,26 @@ function App() {
     );
 
     let totalDistance = 0;
-    const newSteps: Step[] = directions.instructions.map(
+    const newSteps: Step[] = directions.instructions.map((instruction: any) => {
+      const distanceInMeters = Math.round(instruction.distance);
+      totalDistance += distanceInMeters;
 
-      (instruction: any,) => {
-        // index: number
-        const distanceInMeters = Math.round(instruction.distance);
-        totalDistance += distanceInMeters;
+      const bearing = getBearingFromInstruction(instruction.instruction);
 
-        const bearing = getBearingFromInstruction(instruction.instruction);
-
-        return {
-          action: {
-            bearing: bearing,
-          },
-          description: `${instruction.instruction} - ${distanceInMeters} metros`,
-        };
-      }
-    );
+      return {
+        action: {
+          bearing: bearing,
+        },
+        description: `${instruction.instruction} - ${distanceInMeters} metros`,
+      };
+    });
     console.log(directions);
     setSteps(newSteps);
     setTotalWalkingTime(
       Number(calculateWalkingTime(totalDistance, walkingSpeed))
     );
-  }, [mapView, departure, destination, getBearingFromInstruction, calculateWalkingTime, walkingSpeed]);
+  }, [mapView, departure, destination, getBearingFromInstruction]);
 
-  // Manejar clics en el mapa
   useEffect(() => {
     if (!mapView || !venue) return;
 
@@ -222,12 +210,17 @@ function App() {
     mapView.addInteractivePolygonsForAllLocations();
     mapView.FloatingLabels.labelAllLocations();
 
+    venue.on(GET_VENUE_EVENT.LANGUAGE_CHANGED, () => {
+      mapView.FloatingLabels.removeAll();
+      mapView.FloatingLabels.labelAllLocations();
+      console.log("Idioma actual:", venue.currentLanguage);
+    });
+
     return () => {
       mapView.off(E_SDK_EVENT.CLICK, handleMapClick);
     };
   }, [mapView, venue, handleLocationSelect, handleMenuStateChange]);
 
-  // Manejar selección desde la URL
   useEffect(() => {
     if (isInitialLoad.current) {
       const params = new URLSearchParams(location.search);
@@ -242,7 +235,7 @@ function App() {
           handleLocationSelect(selectedStore);
         }
       }
-      isInitialLoad.current = false; // Marcar como manejado
+      isInitialLoad.current = false;
     }
   }, [location, venue, handleLocationSelect]);
 
@@ -266,11 +259,8 @@ function App() {
     }
   }, [location.search, venue, handleLocationSelect]);
 
-
-  // Manejar cambio de mapa
   const handleMapChange = useCallback(
-    async (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedOption = event.target.value;
+    async (selectedOption: string) => {
       setSelectedMap(selectedOption);
 
       setDeparture(null);
@@ -298,7 +288,12 @@ function App() {
     [mapView, venue, handleMenuStateChange]
   );
 
-
+  const handleLanguageChange = useCallback((lang: string) => {
+    if (venue) {
+      venue.changeLanguage(lang);
+      setCurrentLanguage(lang);
+    }
+  }, [venue]);
 
   if (!venue) {
     return <div>Loading...</div>;
@@ -330,10 +325,8 @@ function App() {
         totalWalkingTime={totalWalkingTime}
         mapView={mapView}
         url={location.search}
-        directions={departure && destination ? departure.directionsTo(destination) : undefined} // 
+        directions={departure && destination ? departure.directionsTo(destination) : undefined}
       />
-
-
       <CategoryList
         menuState={menuState}
         onMenuStateChange={handleMenuStateChange}
@@ -349,7 +342,10 @@ function App() {
         menuState={menuState}
         onMenuStateChange={handleMenuStateChange}
       />
-      <Languages />
+      <Languages 
+        onLanguageChange={handleLanguageChange}
+        currentLanguage={currentLanguage}
+      />
       <MapSelector
         selectedMap={selectedMap}
         handleMapChange={handleMapChange}

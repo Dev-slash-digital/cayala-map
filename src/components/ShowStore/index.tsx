@@ -109,10 +109,20 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   useEffect(() => {
     const showStore = showStoreRef.current;
     if (!showStore) return;
+  
+    const isMobile = window.innerWidth < 400;
 
+    if (isMobile) {
+      showStore.style.top = '50px';  
+      showStore.style.transform = 'translateX(-50%)'; 
+    }
+  
+    const isLargeScreen = !isMobile;
+    if (!isLargeScreen) return; 
+  
     let isDragging = false;
     let offsetX: number, offsetY: number;
-
+  
     const handleStart = (e: MouseEvent | TouchEvent) => {
       isDragging = true;
       const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
@@ -120,7 +130,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       offsetX = showStore.offsetLeft - clientX;
       offsetY = showStore.offsetTop - clientY;
     };
-
+  
     const handleMove = (e: MouseEvent | TouchEvent) => {
       if (!isDragging) return;
       const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
@@ -128,19 +138,22 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       showStore.style.left = `${clientX + offsetX}px`;
       showStore.style.top = `${clientY + offsetY}px`;
     };
-
+  
     const handleEnd = () => { isDragging = false; };
-
+  
     showStore.addEventListener("mousedown", handleStart);
     document.addEventListener("mousemove", handleMove);
     document.addEventListener("mouseup", handleEnd);
-
+  
     return () => {
       showStore.removeEventListener("mousedown", handleStart);
       document.removeEventListener("mousemove", handleMove);
       document.removeEventListener("mouseup", handleEnd);
     };
   }, []);
+  
+  
+  
 
   const calculateRotation = useCallback((currentNode: MappedinNode, nextNode: MappedinNode | undefined): number => {
     console.log(nextNode)

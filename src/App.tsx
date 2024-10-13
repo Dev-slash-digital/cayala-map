@@ -21,6 +21,7 @@ import { useSelectedLocation } from "./hooks/useSelectedLocation";
 import { useVenue } from "./hooks/useVenue";
 import { calculateWalkingTime } from "./utils";
 import { ShowStore } from "./components/ShowStore";
+import SplashScreen from "./components/SplashScreen";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Step } from "./types/types";
 
@@ -37,6 +38,7 @@ function App() {
   const [showCategoryList, setShowCategoryList] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<MappedinCategory | null>(null);
   const [categories, setCategories] = useState<MappedinCategory[]>([]);
+  const [showApp, setShowApp] = useState(true);
 
   const venue = useVenue(options);
   const { elementRef, mapView } = useMapView(venue, {
@@ -53,6 +55,10 @@ function App() {
     outdoorView: { enabled: true },
     shadingAndOutlines: true,
   });
+
+  const handleSplashFinish = () => {
+    setShowApp(true);
+  };
 
   const { selectedLocation, setSelectedLocation } = useSelectedLocation(mapView);
 
@@ -272,44 +278,49 @@ function App() {
   }
 
   return (
-    <div className="container-principal">
-      <div
-        style={{ height: "100%", width: "100%", position: "absolute" }}
-        ref={elementRef}
-      />
-      <SearchBar
-        setSelectedLocation={handleLocationSelect}
-        menuState={menuState}
-        onMenuStateChange={handleMenuStateChange}
-        handleCategoryClick={() => {
-          setShowCategoryList(!showCategoryList);
-          setSelectedCategory(null);
-        }}
-      />
-      {memoizedShowStore}
-      <CategoryList
-        menuState={menuState}
-        onMenuStateChange={handleMenuStateChange}
-        categories={categories}
-        onCategorySelect={setSelectedCategory}
-        onLocationSelect={handleLocationSelect}
-        selectedCategory={selectedCategory}
-        onBackClick={() => setSelectedCategory(null)}
-      />
-      <ShowMenuBar
-        menuState={menuState}
-        onMenuStateChange={handleMenuStateChange}
-      />
-      <Languages
-        onLanguageChange={handleLanguageChange}
-        currentLanguage={currentLanguage}
-      />
-      <MapSelector
-        selectedMap={selectedMap}
-        handleMapChange={handleMapChange}
-        mapView={mapView}
-      />
-    </div>
+    <>
+      <SplashScreen onFinish={handleSplashFinish} />
+      {showApp && (
+        <div className="container-principal">
+          <div
+            style={{ height: "100%", width: "100%", position: "absolute" }}
+            ref={elementRef}
+          />
+          <SearchBar
+            setSelectedLocation={handleLocationSelect}
+            menuState={menuState}
+            onMenuStateChange={handleMenuStateChange}
+            handleCategoryClick={() => {
+              setShowCategoryList(!showCategoryList);
+              setSelectedCategory(null);
+            }}
+          />
+          {memoizedShowStore}
+          <CategoryList
+            menuState={menuState}
+            onMenuStateChange={handleMenuStateChange}
+            categories={categories}
+            onCategorySelect={setSelectedCategory}
+            onLocationSelect={handleLocationSelect}
+            selectedCategory={selectedCategory}
+            onBackClick={() => setSelectedCategory(null)}
+          />
+          <ShowMenuBar
+            menuState={menuState}
+            onMenuStateChange={handleMenuStateChange}
+          />
+          <Languages
+            onLanguageChange={handleLanguageChange}
+            currentLanguage={currentLanguage}
+          />
+          <MapSelector
+            selectedMap={selectedMap}
+            handleMapChange={handleMapChange}
+            mapView={mapView}
+          />
+        </div>
+      )}
+    </>
   );
 }
 

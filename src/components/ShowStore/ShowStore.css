@@ -66,8 +66,8 @@ span {
     transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
     padding: 5px 10px 10px 10px;
     z-index: 10;
-    position: absolute;
-    top: 20%;
+    position: fixed;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     visibility: visible;
@@ -99,8 +99,8 @@ span {
     transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
     padding: 5px 10px 10px 10px;
     z-index: 10;
-    position: absolute;
-    top: 20%;
+    position: fixed;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -100%);
 }
@@ -403,18 +403,6 @@ h4.operation-hours-title {
 }
 
 @media (width <=600px) and (width >=0px) {
-    #show-store.show {
-        top: 20%;
-        left: 50%;
-        width: 280px;
-    }
-
-    #show-store.hide {
-        top: 20%;
-        left: 50%;
-        width: 280px;
-    }
-
     .btn-direccion,
     .btn-telefono {
         font-size: 10px;

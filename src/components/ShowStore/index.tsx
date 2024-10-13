@@ -110,10 +110,10 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     const showStore = showStoreRef.current;
     if (!showStore) return;
   
-    const isMobile = window.innerWidth < 400;
+    const isMobile = window.innerWidth < 600;
 
     if (isMobile) {
-      showStore.style.top = '50px';  
+      showStore.style.top = '10%';  
       showStore.style.transform = 'translateX(-50%)'; 
     }
   

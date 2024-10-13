@@ -1,5 +1,5 @@
 import "./App.css";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef, useMemo } from "react";
 import {
   CAMERA_EASING_MODE,
   E_SDK_EVENT,
@@ -29,11 +29,6 @@ function App() {
 
   const [menuState, setMenuState] = useState<MenuState>("AllHidden");
   const [currentLanguage, setCurrentLanguage] = useState("es");
-
-  const handleMenuStateChange = useCallback((newState: MenuState) => {
-    setMenuState(newState);
-  }, []);
-
   const [departure, setDeparture] = useState<MappedinPolygon | null>(null);
   const [destination, setDestination] = useState<MappedinPolygon | null>(null);
   const [selectedMap, setSelectedMap] = useState("Planta Baja");
@@ -49,28 +44,13 @@ function App() {
     xRayPath: true,
     loadOptions: {
       outdoorGeometryLayers: [
-        "__TEXT__",
-        "__AUTO__BORDER__",
-        "Base",
-        "Void",
-        "Outdoor Obstruction",
-        "Water Feature",
-        "Parking Below",
-        "Landscape Below",
-        "Sidewalk Below",
-        "Details Below",
-        "Landscape",
-        "Sidewalk",
-        "Entrance Arrows",
-        "Parking Lot Standard",
-        "Parking Icon",
-        "OD Tree Base",
-        "OD Tree Top",
+        "__TEXT__", "__AUTO__BORDER__", "Base", "Void", "Outdoor Obstruction",
+        "Water Feature", "Parking Below", "Landscape Below", "Sidewalk Below",
+        "Details Below", "Landscape", "Sidewalk", "Entrance Arrows",
+        "Parking Lot Standard", "Parking Icon", "OD Tree Base", "OD Tree Top",
       ],
     },
-    outdoorView: {
-      enabled: true,
-    },
+    outdoorView: { enabled: true },
     shadingAndOutlines: true,
   });
 
@@ -81,26 +61,14 @@ function App() {
 
   const isInitialLoad = useRef(true);
 
-  console.log(venue?.venue.languages); 
-  console.log(venue?.currentLanguage); 
-
-  useEffect(() => {
-    if (venue) {
-      const sortedCategories = [...venue.categories].sort((a, b) =>
-        a.name && b.name ? (a.name > b.name ? 1 : -1) : 0
-      );
-      setCategories(sortedCategories);
-    }
-  }, [venue]);
+  const handleMenuStateChange = useCallback((newState: MenuState) => {
+    setMenuState(newState);
+  }, []);
 
   const getBearingFromInstruction = useCallback((instruction: string): 'Left' | 'Right' | 'Straight' => {
     const instructionLower = instruction.toLowerCase();
-    if (instructionLower.includes('izquierda') || instructionLower.includes('left')) {
-      return 'Left';
-    }
-    if (instructionLower.includes('derecha') || instructionLower.includes('right')) {
-      return 'Right';
-    }
+    if (instructionLower.includes('izquierda') || instructionLower.includes('left')) return 'Left';
+    if (instructionLower.includes('derecha') || instructionLower.includes('right')) return 'Right';
     return 'Straight';
   }, []);
 
@@ -112,8 +80,7 @@ function App() {
       return;
     }
 
-    const microsoftPolygon = microsoftLocation.polygons[0];
-    setDeparture(microsoftPolygon);
+    setDeparture(microsoftLocation.polygons[0]);
 
     if (!location.polygons || location.polygons.length === 0) {
       console.error("La ubicación seleccionada no tiene polígonos.");
@@ -122,15 +89,21 @@ function App() {
       navigate(`/?from=Microsoft&to=${encodeURIComponent(location.name)}`);
       return;
     }
-    const destinationPolygon = location.polygons[0];
-    setDestination(destinationPolygon);
 
+    setDestination(location.polygons[0]);
     setSelectedLocation(location);
-
     handleMenuStateChange("ShowStore");
-
     navigate(`/?from=Microsoft&to=${encodeURIComponent(location.name)}`);
-  }, [venue, navigate, handleMenuStateChange]);
+  }, [venue, navigate, handleMenuStateChange, setSelectedLocation]);
+
+  useEffect(() => {
+    if (venue) {
+      const sortedCategories = [...venue.categories].sort((a, b) =>
+        a.name && b.name ? (a.name > b.name ? 1 : -1) : 0
+      );
+      setCategories(sortedCategories);
+    }
+  }, [venue]);
 
   useEffect(() => {
     if (!mapView || !departure || !destination) {
@@ -142,9 +115,7 @@ function App() {
     const directions = departure.directionsTo(destination);
 
     mapView.Journey.draw(directions, {
-      pathOptions: {
-        color: "#fc0",
-      },
+      pathOptions: { color: "#fc0" },
     });
 
     mapView.Camera.focusOn(
@@ -164,20 +135,16 @@ function App() {
       const distanceInMeters = Math.round(instruction.distance);
       totalDistance += distanceInMeters;
 
-      const bearing = getBearingFromInstruction(instruction.instruction);
-
       return {
         action: {
-          bearing: bearing,
+          bearing: getBearingFromInstruction(instruction.instruction),
         },
         description: `${instruction.instruction} - ${distanceInMeters} metros`,
       };
     });
-    console.log(directions);
+
     setSteps(newSteps);
-    setTotalWalkingTime(
-      Number(calculateWalkingTime(totalDistance, walkingSpeed))
-    );
+    setTotalWalkingTime(Number(calculateWalkingTime(totalDistance, walkingSpeed)));
   }, [mapView, departure, destination, getBearingFromInstruction]);
 
   useEffect(() => {
@@ -191,12 +158,10 @@ function App() {
         setDestination(null);
         mapView.Journey.clear();
         mapView.clearAllPolygonColors();
-        console.warn("No hay ubicaciones para este polígono");
         return;
       }
 
-      const clickedPolygon = polygons[0];
-      const clickedLocation = clickedPolygon.locations?.[0];
+      const clickedLocation = polygons[0].locations?.[0];
 
       if (clickedLocation) {
         handleLocationSelect(clickedLocation);
@@ -213,13 +178,12 @@ function App() {
     venue.on(GET_VENUE_EVENT.LANGUAGE_CHANGED, () => {
       mapView.FloatingLabels.removeAll();
       mapView.FloatingLabels.labelAllLocations();
-      console.log("Idioma actual:", venue.currentLanguage);
     });
 
     return () => {
       mapView.off(E_SDK_EVENT.CLICK, handleMapClick);
     };
-  }, [mapView, venue, handleLocationSelect, handleMenuStateChange]);
+  }, [mapView, venue, handleLocationSelect, handleMenuStateChange, setSelectedLocation]);
 
   useEffect(() => {
     if (isInitialLoad.current) {
@@ -259,34 +223,28 @@ function App() {
     }
   }, [location.search, venue, handleLocationSelect]);
 
-  const handleMapChange = useCallback(
-    async (selectedOption: string) => {
-      setSelectedMap(selectedOption);
+  const handleMapChange = useCallback(async (selectedOption: string) => {
+    setSelectedMap(selectedOption);
+    setDeparture(null);
+    setDestination(null);
+    setSteps([]);
+    setTotalWalkingTime(0);
+    setSelectedLocation(undefined);
+    handleMenuStateChange("AllHidden");
 
-      setDeparture(null);
-      setDestination(null);
-      setSteps([]);
-      setTotalWalkingTime(0);
-      setSelectedLocation(undefined);
-      handleMenuStateChange("AllHidden"); 
+    if (!mapView) return;
 
-      if (!mapView) return;
-
-      const selectedMapObj = venue?.maps.find(
-        (map) => map.name === selectedOption
-      );
-      if (selectedMapObj) {
-        try {
-          await mapView.setMap(selectedMapObj);
-        } catch (error) {
-          console.error("Error al cambiar el mapa:", error);
-        }
-      } else {
-        console.warn(`No se encontró un mapa con el nombre ${selectedOption}`);
+    const selectedMapObj = venue?.maps.find((map) => map.name === selectedOption);
+    if (selectedMapObj) {
+      try {
+        await mapView.setMap(selectedMapObj);
+      } catch (error) {
+        console.error("Error al cambiar el mapa:", error);
       }
-    },
-    [mapView, venue, handleMenuStateChange]
-  );
+    } else {
+      console.warn(`No se encontró un mapa con el nombre ${selectedOption}`);
+    }
+  }, [mapView, venue, handleMenuStateChange]);
 
   const handleLanguageChange = useCallback((lang: string) => {
     if (venue) {
@@ -294,6 +252,20 @@ function App() {
       setCurrentLanguage(lang);
     }
   }, [venue]);
+
+  const memoizedShowStore = useMemo(() => (
+    <ShowStore
+      selectedLocation={selectedLocation}
+      onGoBack={() => handleMenuStateChange("ShowCategories")}
+      menuState={menuState}
+      onMenuStateChange={handleMenuStateChange}
+      steps={steps}
+      totalWalkingTime={totalWalkingTime}
+      mapView={mapView}
+      url={location.search}
+      directions={departure && destination ? departure.directionsTo(destination) : undefined}
+    />
+  ), [selectedLocation, menuState, handleMenuStateChange, steps, totalWalkingTime, mapView, location.search, departure, destination]);
 
   if (!venue) {
     return <div>Loading...</div>;
@@ -304,9 +276,9 @@ function App() {
       <div
         style={{ height: "100%", width: "100%", position: "absolute" }}
         ref={elementRef}
-      ></div>
+      />
       <SearchBar
-        setSelectedLocation={handleLocationSelect} 
+        setSelectedLocation={handleLocationSelect}
         menuState={menuState}
         onMenuStateChange={handleMenuStateChange}
         handleCategoryClick={() => {
@@ -314,42 +286,28 @@ function App() {
           setSelectedCategory(null);
         }}
       />
-      <ShowStore
-        selectedLocation={selectedLocation}
-        onGoBack={() => {
-          handleMenuStateChange("ShowCategories");
-        }}
-        menuState={menuState}
-        onMenuStateChange={handleMenuStateChange}
-        steps={steps}
-        totalWalkingTime={totalWalkingTime}
-        mapView={mapView}
-        url={location.search}
-        directions={departure && destination ? departure.directionsTo(destination) : undefined}
-      />
+      {memoizedShowStore}
       <CategoryList
         menuState={menuState}
         onMenuStateChange={handleMenuStateChange}
         categories={categories}
-        onCategorySelect={(category) => setSelectedCategory(category)}
-        onLocationSelect={handleLocationSelect} 
+        onCategorySelect={setSelectedCategory}
+        onLocationSelect={handleLocationSelect}
         selectedCategory={selectedCategory}
-        onBackClick={() => {
-          setSelectedCategory(null);
-        }}
+        onBackClick={() => setSelectedCategory(null)}
       />
       <ShowMenuBar
         menuState={menuState}
         onMenuStateChange={handleMenuStateChange}
       />
-      <Languages 
+      <Languages
         onLanguageChange={handleLanguageChange}
         currentLanguage={currentLanguage}
       />
       <MapSelector
         selectedMap={selectedMap}
         handleMapChange={handleMapChange}
-        mapView={mapView} 
+        mapView={mapView}
       />
     </div>
   );

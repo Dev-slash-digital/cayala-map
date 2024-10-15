@@ -21,6 +21,14 @@ span {
     --font-size-large-36: 36px;
 }
 
+.texto-limitado {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Muestra solo 3 líneas */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+
 .btn-regresar {
     color: #000;
     background-color: transparent;
@@ -48,7 +56,7 @@ span {
 }
 
 .btn-regresar .fa-chevron-left {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .btn-salir .fa-xmark {
@@ -221,9 +229,24 @@ span {
     color: #000;
 }
 
+.descripcion-store{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 5px;
+}
+
 .descripcion-store p {
     font-size: 10px;
     text-align: left;
+}
+
+.descripcion-store button {
+    border: none;
+    background-color: transparent;
+    font-size: 10px;
+    color: red;
 }
 
 .container_step_by_step {
@@ -232,22 +255,31 @@ span {
     justify-content: center;
     align-items: start;
     gap: 10px;
-    height: auto;
-    max-height: auto;
+    overflow: hidden;
+    transition: max-height 0.5s ease-in-out;
     width: 100%;
+    max-height: 173px;
     scrollbar-width: none !important;
 }
 
-.containerPasos{
-    width: 100%;
+.showSteps {
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in-out;
 }
+
+i#bajar {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.containerPasos {
+    width: 100%;
+  }
 
 .containerFlexSteps {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    height: auto;
-    max-height: auto;
     width: 100%;
     scrollbar-width: none !important;
 }
@@ -282,7 +314,7 @@ span {
 }
 
 .list_steps {
-    width: 90%;
+    width: 100%;
     cursor: pointer;
     background-color: #e5f1ff;
     display: flex;
@@ -315,7 +347,7 @@ span {
 }
 
 .containerQr {
-    width: 80%;
+    width: 100%;
 }
 
 .containerQr h3 {

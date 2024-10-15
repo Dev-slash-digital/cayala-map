@@ -27,6 +27,10 @@ interface ShowStoreProps {
   directions: MappedinDirections | undefined;
 }
 
+interface DescripcionStoreProps {
+  description: string;
+}
+
 export const ShowStore: React.FC<ShowStoreProps> = ({
   selectedLocation,
   onGoBack,
@@ -109,20 +113,20 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   useEffect(() => {
     const showStore = showStoreRef.current;
     if (!showStore) return;
-  
+
     const isMobile = window.innerWidth < 600;
 
     if (isMobile) {
-      showStore.style.top = '10%';  
-      showStore.style.transform = 'translateX(-50%)'; 
+      showStore.style.top = '10%';
+      showStore.style.transform = 'translateX(-50%)';
     }
-  
+
     const isLargeScreen = !isMobile;
-    if (!isLargeScreen) return; 
-  
+    if (!isLargeScreen) return;
+
     let isDragging = false;
     let offsetX: number, offsetY: number;
-  
+
     const handleStart = (e: MouseEvent | TouchEvent) => {
       isDragging = true;
       const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
@@ -130,7 +134,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       offsetX = showStore.offsetLeft - clientX;
       offsetY = showStore.offsetTop - clientY;
     };
-  
+
     const handleMove = (e: MouseEvent | TouchEvent) => {
       if (!isDragging) return;
       const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
@@ -138,22 +142,22 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       showStore.style.left = `${clientX + offsetX}px`;
       showStore.style.top = `${clientY + offsetY}px`;
     };
-  
+
     const handleEnd = () => { isDragging = false; };
-  
+
     showStore.addEventListener("mousedown", handleStart);
     document.addEventListener("mousemove", handleMove);
     document.addEventListener("mouseup", handleEnd);
-  
+
     return () => {
       showStore.removeEventListener("mousedown", handleStart);
       document.removeEventListener("mousemove", handleMove);
       document.removeEventListener("mouseup", handleEnd);
     };
   }, []);
-  
-  
-  
+
+
+
 
   const calculateRotation = useCallback((currentNode: MappedinNode, nextNode: MappedinNode | undefined): number => {
     console.log(nextNode)
@@ -239,31 +243,61 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
             <i className={`chevron fa-solid fa-chevron-${isHoursExpanded ? 'up' : 'down'}`}></i>
           </div>
         </div>
-          <div className={`operation-hours-list ${isHoursExpanded ? 'expanded' : 'collapsed'}`}> 
-            {daysOfWeek.map((day, index) => {
-              const dayHours = selectedLocation.operationHours?.find(hour => hour.dayOfWeek.includes(day));
-              const isDayOpen = dayHours && new Date().toLocaleTimeString() >= dayHours.opens && new Date().toLocaleTimeString() < dayHours.closes;
-              return (
-                <div key={index} className="operation-hours-item">
-                  <div className="operation-hours-day-time">
-                    <span className="operation-hours-day">{day}</span>
-                    {dayHours ? (
-                      <span className={`operation-hours-time ${isDayOpen ? 'open' : 'closed'}`}>
-                        <span className="operation-hours-open">{formatTime(dayHours.opens)}</span>
-                        <span className="operation-hours-separator">-</span>
-                        <span className="operation-hours-close">{formatTime(dayHours.closes)}</span>
-                      </span>
-                    ) : (
-                      <span className="operation-hours-closed">Closed</span>
-                    )}
-                  </div>
+        <div className={`operation-hours-list ${isHoursExpanded ? 'expanded' : 'collapsed'}`}>
+          {daysOfWeek.map((day, index) => {
+            const dayHours = selectedLocation.operationHours?.find(hour => hour.dayOfWeek.includes(day));
+            const isDayOpen = dayHours && new Date().toLocaleTimeString() >= dayHours.opens && new Date().toLocaleTimeString() < dayHours.closes;
+            return (
+              <div key={index} className="operation-hours-item">
+                <div className="operation-hours-day-time">
+                  <span className="operation-hours-day">{day}</span>
+                  {dayHours ? (
+                    <span className={`operation-hours-time ${isDayOpen ? 'open' : 'closed'}`}>
+                      <span className="operation-hours-open">{formatTime(dayHours.opens)}</span>
+                      <span className="operation-hours-separator">-</span>
+                      <span className="operation-hours-close">{formatTime(dayHours.closes)}</span>
+                    </span>
+                  ) : (
+                    <span className="operation-hours-closed">Closed</span>
+                  )}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }, [selectedLocation?.operationHours, isHoursExpanded]);
+
+
+  function DescripcionStore({ description }: DescripcionStoreProps) {
+    const [showMore, setShowMore] = useState(false);
+
+    const toggleShowMore = () => {
+      setShowMore(!showMore);
+    };
+
+    return (
+      <div className="descripcion-store">
+        <p className={showMore ? '' : 'texto-limitado'}>
+          {description}
+        </p>
+        <button onClick={toggleShowMore}>
+          {showMore ? 'Ver menos' : 'Ver más'}
+        </button>
+      </div>
+    );
+  }
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleHeight = () => {
+    const container = document.querySelector(".container_step_by_step") as HTMLElement;
+    if (!container) return;
+
+    setIsExpanded(!isExpanded);
+    container.classList.toggle('showSteps');
+  };
 
 
   const renderBackButton = () => (
@@ -327,7 +361,9 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
             </div>
           )}
           <div className="descripcion-store">
-            {selectedLocation?.description && <p>{decodeText(selectedLocation.description)}</p>}
+            {selectedLocation?.description && (
+              <DescripcionStore description={decodeText(selectedLocation.description)} />
+            )}
           </div>
         </div>
       ) : (
@@ -346,26 +382,20 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                   <div className="steps_time">
                     <p>Tiempo aprox <span>{totalWalkingTime} min.</span></p>
                   </div>
-                  <div>
-                    <i id="subir" className="fa-solid fa-sort-up"></i>
-                  </div>
                   <div className="container-step">
-                  {steps.map((step, index) => {
-                    if (!step || !step.action) return null;
-                    const isSelected = index === selectedStepIndex;
-                    return (
-                      <section
-                        className={`list_steps ${isSelected ? 'selected-step' : ''}`}
-                        key={index}
-                        onClick={() => handleStepClick(index)}>
-                        <i className={`fa-solid fa-arrow-${step.action.bearing === 'Left' ? 'left' : step.action.bearing === 'Right' ? 'right' : 'up'}`}></i>
-                        <div>{decodeText(step.description)}</div>
-                      </section>
-                    );
-                  })}
-                  </div>
-                  <div>
-                    <i id="bajar" className="fa-solid fa-sort-down"></i>
+                    {steps.map((step, index) => {
+                      if (!step || !step.action) return null;
+                      const isSelected = index === selectedStepIndex;
+                      return (
+                        <section
+                          className={`list_steps ${isSelected ? 'selected-step' : ''}`}
+                          key={index}
+                          onClick={() => handleStepClick(index)}>
+                          <i className={`fa-solid fa-arrow-${step.action.bearing === 'Left' ? 'left' : step.action.bearing === 'Right' ? 'right' : 'up'}`}></i>
+                          <div>{decodeText(step.description)}</div>
+                        </section>
+                      );
+                    })}
                   </div>
                 </div>
                 <div className="containerQr">
@@ -376,6 +406,13 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                   <p>Escanea el codigo QR en tu celular.</p>
                 </div>
               </div>
+              <div>
+                    <i
+                      id="bajar"
+                      className={`fa-solid fa-angle-${!isExpanded ? 'down' : 'up'}`}
+                      onClick={toggleHeight}
+                    ></i>
+                  </div>
             </div>
           )}
         </>

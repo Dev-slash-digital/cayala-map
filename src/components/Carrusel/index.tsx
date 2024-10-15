@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import "./SplashScreen.css";
+import "./Carrusel.css";
 
-interface SplashScreenProps {
+interface CarruselProps {
   onFinish: () => void;
 }
 
@@ -12,25 +12,25 @@ interface Image {
   category: string;
 }
 
-const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
-  const [visible, setVisible] = useState(false); 
-  const [images, setImages] = useState<Image[]>([]); 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); 
+const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
+  const [visible, setVisible] = useState(true);
+  const [images, setImages] = useState<Image[]>([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     let inactivityTimer: NodeJS.Timeout;
 
     const resetInactivityTimer = () => {
-      setVisible(false);
+      setVisible(false); 
       clearTimeout(inactivityTimer);
       inactivityTimer = setTimeout(() => {
         setVisible(true); 
-      }, 60000); 
+      }, 6000);
     };
 
     inactivityTimer = setTimeout(() => {
       setVisible(true);
-    }, 60000); 
+    }, 6000);
 
     window.addEventListener("click", resetInactivityTimer);
     window.addEventListener("keydown", resetInactivityTimer);
@@ -47,7 +47,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
   }, []);
 
   useEffect(() => {
-    fetch('https://uvastrading.es/guatemala/fetch_files.php') 
+    fetch('https://uvastrading.es/guatemala/fetch_files.php')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -55,9 +55,8 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         return response.json();
       })
       .then((data) => {
-        const splashImages = data.filter((img: Image) => img.category === "Splash");
-        console.log('Imágenes de Splash:', splashImages); 
-        setImages(splashImages);
+        const carruselImages = data.filter((img: Image) => img.category === "Carrusel");
+        setImages(carruselImages);
       })
       .catch((error) => console.error("Error al cargar las imágenes:", error));
   }, []);
@@ -68,30 +67,30 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
       }, 3000); 
 
-      return () => clearInterval(interval); 
+      return () => clearInterval(interval);
     }
   }, [images, visible]);
 
-  const hideSplashScreen = () => {
+  const hideCarrusel = () => {
     setVisible(false);
     onFinish();
   };
 
-  return visible ? (
-    <div className="splash-screen" onClick={hideSplashScreen}>
+  return (
+    <div className={`carrusel-container ${visible ? "visible" : "hidden"}`} onClick={hideCarrusel}>
       {images.length > 0 ? (
         <div className="carousel">
           <img
             src={images[currentImageIndex].file_path}
-            alt={`Splash ${currentImageIndex + 1}`}
-            className="carousel-image"
+            alt={`Carrusel ${currentImageIndex + 1}`}
+            className="carrusel-image"
           />
         </div>
       ) : (
         <p>Cargando imágenes...</p>
       )}
     </div>
-  ) : null;
+  );
 };
 
-export default SplashScreen;
+export default Carrusel;

@@ -47,7 +47,7 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
   }, []);
 
   useEffect(() => {
-    fetch('https://uvastrading.es/guatemala/fetch_files.php')
+    fetch('https://aqua-hippopotamus-349530.hostingersite.com/guatemala/fetch_files.php')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

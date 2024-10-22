@@ -6,6 +6,7 @@ import {
   CAMERA_EASING_MODE,
   MappedinNode,
   MappedinDirections,
+  ACTION_TYPE,
 } from "@mappedin/mappedin-js";
 import "@mappedin/mappedin-js/lib/mappedin.css";
 import QRCode from "qrcode";
@@ -62,6 +63,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     }
   }, []);
 
+  // mostrar y ocultar la popup de la tienda  
   useEffect(() => {
     const showStore = document.getElementById("show-store");
     if (showStore) {
@@ -70,6 +72,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     }
   }, [menuState]);
 
+  //Ajustar la camara para la ruta de la tienda
   useEffect(() => {
     if (mapView && selectedLocation && menuState === "ShowStore") {
       mapView.Camera.focusOn(
@@ -79,6 +82,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     }
   }, [mapView, selectedLocation, menuState]);
 
+  //Generar el codigo QR
   useEffect(() => {
     if (url) {
       const fullUrl = `${window.location.origin}${url}`;
@@ -88,6 +92,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     }
   }, [url]);
 
+  //dibujar la ruta desde el punto inicial al punto final
   useEffect(() => {
     if (mapView && directions) {
       mapView.Journey.draw(directions, {
@@ -110,6 +115,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     }
   }, [mapView, directions]);
 
+  //mover el popup de la tienda en la pantalla
   useEffect(() => {
     const showStore = showStoreRef.current;
     if (!showStore) return;
@@ -157,40 +163,65 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   }, []);
 
 
-
-
-  const calculateRotation = useCallback((currentNode: MappedinNode, nextNode: MappedinNode | undefined): number => {
-    console.log(nextNode)
-    if (!nextNode) return 0;
-    const dx = nextNode.x - currentNode.x;
-    const dy = nextNode.y - currentNode.y;
-    let angle = Math.atan2(dy, dx) * (180 / Math.PI);
-    angle = (angle + 90) % 360;
-    return angle * (Math.PI / 180);
-  }, []);
-
-  const focusOnNode = useCallback((node: MappedinNode, index: number) => {
-    if (!mapView || !directions || !directions.path) {
-      console.error("mapView, directions o directions.path no están definidos.");
+  const focusOnNode = useCallback(async (node: MappedinNode, index: number) => {
+    if (!mapView || !directions || !directions.instructions) {
+      console.error("mapView, directions o directions.instructions no están definidos.");
       return;
     }
-
-    const nextNode = directions.path[index + 1];
-    const rotation = calculateRotation(node, nextNode);
-
-    mapView.Camera.focusOn(
+  
+    const nextInstruction = directions.instructions[index + 1];
+  
+    // Función para calcular la rotación
+    const calculateRotation = (currentNode: MappedinNode, nextNode?: MappedinNode) => {
+      if (!nextNode) return 0;
+      const dx = nextNode.x - currentNode.x;
+      const dy = nextNode.y - currentNode.y;
+      return Math.atan2(dy, dx);
+    };
+  
+    // Función para cambiar el mapa
+    const changeMap = async (newMapName: string) => {
+      const newMap = mapView.venue.maps.find((map: any) => map.name === newMapName);
+      if (newMap) {
+        await mapView.setMap(newMap);
+        console.log(`Cambiado al mapa: ${newMapName}`);
+      } else {
+        console.error(`Mapa no encontrado: ${newMapName}`);
+      }
+    };
+  
+    // Verificar si necesitamos cambiar de piso
+    const currentMapName = mapView.currentMap.name;
+    const nodeMapName = node.map.name;
+    if (currentMapName !== nodeMapName) {
+      await changeMap(nodeMapName);
+      // Esperar un momento después de cambiar el mapa
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+  
+    // Calcular la rotación
+    const rotation = calculateRotation(node, nextInstruction?.node);
+  
+    // Enfocar en el nodo con rotación
+    await mapView.Camera.focusOn(
       { nodes: [node] },
-      { minZoom: 1000, duration: 1500, easing: CAMERA_EASING_MODE.EASE_IN_OUT, rotation }
-    ).catch(console.error);
+      { 
+        rotation: rotation,
+        tilt: 0, 
+        duration: 1500, 
+        easing: CAMERA_EASING_MODE.EASE_IN_OUT 
+      },
 
+    );
+  
     mapView.Journey.setStep(index);
-  }, [mapView, directions, calculateRotation]);
+  }, [mapView, directions]);
 
   const handleStepClick = useCallback((stepIndex: number) => {
     setSelectedStepIndex(stepIndex);
 
-    if (!mapView || !directions || !directions.path || directions.path.length === 0) {
-      console.error("mapView, directions o directions.path no están disponibles.");
+    if (!mapView || !directions || !directions.instructions) {
+      console.error("mapView, directions o directions.instructions no están disponibles.");
       return;
     }
 
@@ -200,17 +231,13 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       return;
     }
 
-    const nodeId = typeof instruction.node === 'string' ? instruction.node : instruction.node.id;
-    const targetNodeIndex = directions.path.findIndex(node => node.id === nodeId);
-    if (targetNodeIndex === -1) {
-      console.error("targetNode no encontrado en directions.path");
-      return;
-    }
+    const node = instruction.node;
+    focusOnNode(node, stepIndex);
 
-    const targetNode = directions.path[targetNodeIndex];
-    focusOnNode(targetNode, targetNodeIndex);
   }, [mapView, directions, focusOnNode]);
 
+
+  //hora de operacion de los locales
   const formatTime = (time: string): string => {
     const [hours, minutes] = time.split(':');
     const hour = parseInt(hours, 10);
@@ -269,7 +296,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     );
   }, [selectedLocation?.operationHours, isHoursExpanded]);
 
-
+  //descripcion de los locales
   function DescripcionStore({ description }: DescripcionStoreProps) {
     const [showMore, setShowMore] = useState(false);
 
@@ -382,6 +409,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                   <div className="steps_time">
                     <p>Tiempo aprox <span>{totalWalkingTime} min.</span></p>
                   </div>
+                  {/*html lista de nodos de la ruta o paso a paso*/}
                   <div className="container-step">
                     {steps.map((step, index) => {
                       if (!step || !step.action) return null;

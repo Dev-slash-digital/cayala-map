@@ -258,7 +258,7 @@ span {
     overflow: hidden;
     transition: max-height 0.5s ease-in-out;
     width: 100%;
-    max-height: 173px;
+    max-height: auto;
     scrollbar-width: none !important;
 }
 
@@ -435,6 +435,10 @@ h4.operation-hours-title {
 }
 
 @media (width <=600px) and (width >=0px) {
+
+    #show-store {
+        max-width: 260px;
+    }
     .btn-direccion,
     .btn-telefono {
         font-size: 10px;

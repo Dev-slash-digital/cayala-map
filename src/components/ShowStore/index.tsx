@@ -6,7 +6,6 @@ import {
   CAMERA_EASING_MODE,
   MappedinNode,
   MappedinDirections,
-  ACTION_TYPE,
 } from "@mappedin/mappedin-js";
 import "@mappedin/mappedin-js/lib/mappedin.css";
 import QRCode from "qrcode";
@@ -236,7 +235,6 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
 
   }, [mapView, directions, focusOnNode]);
 
-
   //hora de operacion de los locales
   const formatTime = (time: string): string => {
     const [hours, minutes] = time.split(':');
@@ -316,7 +314,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     );
   }
 
-  const [isExpanded, setIsExpanded] = useState(false);
+ /* const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleHeight = () => {
     const container = document.querySelector(".container_step_by_step") as HTMLElement;
@@ -324,7 +322,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
 
     setIsExpanded(!isExpanded);
     container.classList.toggle('showSteps');
-  };
+  };*/
 
 
   const renderBackButton = () => (
@@ -435,11 +433,11 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                 </div>
               </div>
               <div>
-                    <i
+                    {/*<i
                       id="bajar"
                       className={`fa-solid fa-angle-${!isExpanded ? 'down' : 'up'}`}
                       onClick={toggleHeight}
-                    ></i>
+                    ></i> */}
                   </div>
             </div>
           )}

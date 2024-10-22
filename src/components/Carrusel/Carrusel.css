@@ -26,3 +26,14 @@
   transform: translateY(100%); 
   opacity: 0; 
 }
+
+@media (width <=600px) and (width >=0px) {
+  .carrusel-container {
+    max-height: 180px;
+  }
+
+  .carrusel-image {
+    max-height: 180px;
+  }
+}
+

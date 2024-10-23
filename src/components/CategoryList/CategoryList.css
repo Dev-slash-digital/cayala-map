@@ -181,8 +181,8 @@
 
   .categoryList.hide,
   .categoryList.show {
-    width: 280px;
-    padding: 10px 15px;
+    width: 250px;
+    padding: 10px 10px;
     gap: 5px;
   }
 

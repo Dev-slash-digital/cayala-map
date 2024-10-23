@@ -92,7 +92,7 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
       {images.length > 0 ? (
         <div className="carousel">
           <button className="prev-button" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
-          <i className="fa-solid fa-chevron-left"></i>
+            <i className="fa-solid fa-chevron-left"></i>
           </button>
 
           <img
@@ -102,7 +102,7 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
           />
 
           <button className="next-button" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
-          <i className="fa-solid fa-chevron-right"></i>
+            <i className="fa-solid fa-chevron-right"></i>
           </button>
         </div>
       ) : (

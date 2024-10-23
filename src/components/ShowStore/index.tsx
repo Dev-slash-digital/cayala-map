@@ -122,7 +122,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     const isMobile = window.innerWidth < 600;
 
     if (isMobile) {
-      showStore.style.top = '10%';
+      showStore.style.top = '5%';
       showStore.style.transform = 'translateX(-50%)';
     }
 

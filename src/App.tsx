@@ -23,6 +23,7 @@ import { calculateWalkingTime } from "./utils";
 import { ShowStore } from "./components/ShowStore";
 import SplashScreen from "./components/SplashScreen";
 import Carrusel from "./components/Carrusel";
+import LogoOverlay from './components/LogoOverlay';
 import { useNavigate, useLocation } from "react-router-dom";
 import { Step } from "./types/types";
 
@@ -319,7 +320,10 @@ function App() {
             handleMapChange={handleMapChange}
             mapView={mapView}
           />
-          <Carrusel onFinish={handleSplashFinish} />
+          <Carrusel 
+          onFinish={handleSplashFinish} 
+          />
+          <LogoOverlay />
         </div>
       )}
     </>

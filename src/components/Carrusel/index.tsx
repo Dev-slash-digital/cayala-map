@@ -18,13 +18,39 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
+    fetch('https://aqua-hippopotamus-349530.hostingersite.com/guatemala/fetch_files.php')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const carruselImages = data.filter((img: Image) => img.category === "Carrusel");
+        setImages(carruselImages);
+      })
+      .catch((error) => console.error("Error al cargar las imágenes:", error));
+  }, []);
+
+  useEffect(() => {
+    if (images.length > 0 && visible) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [images, visible]);
+
+
+  useEffect(() => {
     let inactivityTimer: NodeJS.Timeout;
 
     const resetInactivityTimer = () => {
-      setVisible(false); 
+      setVisible(false);
       clearTimeout(inactivityTimer);
       inactivityTimer = setTimeout(() => {
-        setVisible(true); 
+        setVisible(true);
       }, 6000);
     };
 
@@ -46,30 +72,15 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
     };
   }, []);
 
-  useEffect(() => {
-    fetch('https://aqua-hippopotamus-349530.hostingersite.com/guatemala/fetch_files.php')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const carruselImages = data.filter((img: Image) => img.category === "Carrusel");
-        setImages(carruselImages);
-      })
-      .catch((error) => console.error("Error al cargar las imágenes:", error));
-  }, []);
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) =>
+      prevIndex === 0 ? images.length - 1 : prevIndex - 1
+    );
+  };
 
-  useEffect(() => {
-    if (images.length > 0 && visible) {
-      const interval = setInterval(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 3000); 
-
-      return () => clearInterval(interval);
-    }
-  }, [images, visible]);
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
 
   const hideCarrusel = () => {
     setVisible(false);
@@ -80,11 +91,19 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
     <div className={`carrusel-container ${visible ? "visible" : "hidden"}`} onClick={hideCarrusel}>
       {images.length > 0 ? (
         <div className="carousel">
+          <button className="prev-button" onClick={(e) => { e.stopPropagation(); prevImage(); }}>
+          <i className="fa-solid fa-chevron-left"></i>
+          </button>
+
           <img
             src={images[currentImageIndex].file_path}
             alt={`Carrusel ${currentImageIndex + 1}`}
             className="carrusel-image"
           />
+
+          <button className="next-button" onClick={(e) => { e.stopPropagation(); nextImage(); }}>
+          <i className="fa-solid fa-chevron-right"></i>
+          </button>
         </div>
       ) : (
         <p>Cargando imágenes...</p>

@@ -225,15 +225,15 @@ p.nombre-tienda {
 
 @media (width <=600px) and (width >=0px) {
   #searchBar.show {
-    width: 280px;
+    width: 260px;
     padding: 15px;
     gap: 10px;
   }
 
   .search-container {
-    width: 280px;
-    min-width: 280px;
-    max-width: 280px;
+    width: 260px;
+    min-width: 260px;
+    max-width: 260px;
     height: 35px;
     padding: 8px 10px;
   }
@@ -252,25 +252,25 @@ p.nombre-tienda {
   }
 
   .keyboard {
-    width: 280px;
-    min-width: 280px;
+    width: 260px;
+    min-width: 260px;
     padding: 10px;
   }
 
   .keyboard-row {
-    gap: 3px;
+    gap: 2px;
   }
 
   .keyboard-row button {
     min-width: 23px;
     height: 25px;
     padding: 5px 5px;
-    font-size: 12px;
+    font-size: 10px;
   }
 
   #container-tiendas-busqueda {
     width: 100%;
-    max-width: 280px;
+    max-width: 260px;
     max-height: 185px;
     padding-top: 10px;
     padding-bottom: 0px;

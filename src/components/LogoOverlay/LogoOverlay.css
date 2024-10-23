@@ -1,3 +1,10 @@
 .logo-overlay img{
     border-radius: 8px;
 }
+
+
+@media (width <=600px) and (width >=0px) {
+    .logo-overlay {
+        display: none;
+    }
+  }

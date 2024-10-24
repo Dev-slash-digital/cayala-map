@@ -276,7 +276,7 @@ function App() {
       url={location.search}
       directions={departure && destination ? departure.directionsTo(destination) : undefined}
     />
-  ), [selectedLocation, menuState, handleMenuStateChange, steps, totalWalkingTime, mapView, location.search, departure, destination]);
+  ), [currentLanguage, selectedLocation, menuState, handleMenuStateChange, steps, totalWalkingTime, mapView, location.search, departure, destination]);
 
   if (!venue) {
     return <div>Loading...</div>;

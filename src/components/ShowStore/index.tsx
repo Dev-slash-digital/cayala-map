@@ -65,6 +65,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
       }
     }
   }, []);
+  console.log(translations)
 
   // mostrar y ocultar la popup de la tienda  
   useEffect(() => {
@@ -296,7 +297,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
         </div>
       </div>
     );
-  }, [selectedLocation?.operationHours, isHoursExpanded]);
+  }, [translations, selectedLocation?.operationHours, isHoursExpanded]);
 
   //descripcion de los locales
   function DescripcionStore({ description }: DescripcionStoreProps) {

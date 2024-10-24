@@ -9,7 +9,7 @@ interface LanguagesProps {
 function Languages({ onLanguageChange, currentLanguage }: LanguagesProps) {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const languages: ("es" | "en")[] = ["es", "en"]; // Array tipado
+  const languages: ("es" | "en")[] = ["es", "en"]; 
 
   return (
     <div className="language-selector">
@@ -25,7 +25,7 @@ function Languages({ onLanguageChange, currentLanguage }: LanguagesProps) {
             <li 
               key={lang} 
               onClick={() => {
-                onLanguageChange(lang); // Ahora 'lang' es compatible con "es" | "en"
+                onLanguageChange(lang); 
                 setShowDropdown(false);
               }}
               className={currentLanguage === lang ? "active" : ""}

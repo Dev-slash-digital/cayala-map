@@ -1,24 +1,19 @@
-// src/components/SearchBar.tsx
-
 import "./SearchBar.css";
+import translations from "../../utils/translations.tsx";  
 import { useEffect, useState, useRef } from 'react';
 import {
   getVenue,
-  TGetVenueOptions,
   OfflineSearch,
   MappedinLocation,
 } from "@mappedin/mappedin-js";
 import "@mappedin/mappedin-js/lib/mappedin.css";
+import { options } from "../../constants";
 
 type MenuState = "ShowCategories" | "ShowMenu" | "ShowStore" | "AllHidden";
-
-const options: TGetVenueOptions = {
-  venue: "mappedin-demo-mall",
-  clientId: "5eab30aa91b055001a68e996",
-  clientSecret: "RJyRXKcryCMy4erZqqCbuB1NbR66QTGNXVE0x3Pg6oCIlUR1"
-};
+type TranslationType = typeof translations[keyof typeof translations];
 
 interface SearchBarProps {
+  translations: TranslationType;
   menuState: MenuState;
   onMenuStateChange: (newState: MenuState) => void;
   setSelectedLocation: (location: MappedinLocation) => void;
@@ -26,6 +21,7 @@ interface SearchBarProps {
 }
 
 function SearchBar({
+  translations,
   menuState,
   onMenuStateChange,
   setSelectedLocation,
@@ -35,6 +31,7 @@ function SearchBar({
   const [inputValue, setInputValue] = useState('');
   const [searchResults, setSearchResults] = useState<MappedinLocation[]>([]);
   const venueRef = useRef<any>(null);
+
 
   useEffect(() => {
     const searchBar = document.getElementById('searchBar');
@@ -94,7 +91,7 @@ function SearchBar({
         <input
           type="text"
           id="locationsearch"
-          placeholder="Buscar tiendas"
+          placeholder={translations.searchPlaceholder}
           value={inputValue}
           onChange={(e) => {
             setInputValue(e.target.value);
@@ -110,7 +107,7 @@ function SearchBar({
             {searchResults.map((location) => (
               <li key={location.id} className="item-tienda"
                 onClick={() => {
-                  setSelectedLocation(location); // Esto ahora llama a handleLocationSelect en App.tsx
+                  setSelectedLocation(location); 
                   console.log(location);
                 }}
               >
@@ -149,8 +146,8 @@ function SearchBar({
               {letter}
             </button>
           ))}
-          <button onClick={() => handleKeyboardClick(' ')}>Espacio</button>
-          <button onClick={handleDelete}>Borrar</button>
+          <button onClick={() => handleKeyboardClick(' ')}>{translations.searchSpace}</button>
+          <button onClick={handleDelete}>{translations.searchDelete}</button>
         </div>
       </div>
     </div>

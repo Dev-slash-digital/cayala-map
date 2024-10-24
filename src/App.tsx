@@ -26,12 +26,13 @@ import Carrusel from "./components/Carrusel";
 import LogoOverlay from './components/LogoOverlay';
 import { useNavigate, useLocation } from "react-router-dom";
 import { Step } from "./types/types";
+import translations from "./utils/translations";
+
 
 function App() {
   type MenuState = "ShowCategories" | "ShowMenu" | "ShowStore" | "AllHidden";
 
   const [menuState, setMenuState] = useState<MenuState>("AllHidden");
-  const [currentLanguage, setCurrentLanguage] = useState("es");
   const [departure, setDeparture] = useState<MappedinPolygon | null>(null);
   const [destination, setDestination] = useState<MappedinPolygon | null>(null);
   const [selectedMap, setSelectedMap] = useState("Planta Baja");
@@ -41,6 +42,7 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState<MappedinCategory | null>(null);
   const [categories, setCategories] = useState<MappedinCategory[]>([]);
   const [showApp, setShowApp] = useState(true);
+  const [currentLanguage, setCurrentLanguage] = useState<keyof typeof translations>("es");
 
   const venue = useVenue(options);
   const { elementRef, mapView } = useMapView(venue, {
@@ -254,7 +256,7 @@ function App() {
     }
   }, [mapView, venue, handleMenuStateChange]);
 
-  const handleLanguageChange = useCallback((lang: string) => {
+  const handleLanguageChange = useCallback((lang: keyof typeof translations) => {
     if (venue) {
       venue.changeLanguage(lang);
       setCurrentLanguage(lang);
@@ -263,6 +265,7 @@ function App() {
 
   const memoizedShowStore = useMemo(() => (
     <ShowStore
+      translations={translations[currentLanguage]}
       selectedLocation={selectedLocation}
       onGoBack={() => handleMenuStateChange("ShowCategories")}
       menuState={menuState}
@@ -289,6 +292,7 @@ function App() {
             ref={elementRef}
           />
           <SearchBar
+            translations={translations[currentLanguage]}
             setSelectedLocation={handleLocationSelect}
             menuState={menuState}
             onMenuStateChange={handleMenuStateChange}
@@ -299,6 +303,7 @@ function App() {
           />
           {memoizedShowStore}
           <CategoryList
+            translations={translations[currentLanguage]}
             menuState={menuState}
             onMenuStateChange={handleMenuStateChange}
             categories={categories}

@@ -2,14 +2,14 @@ import "./Languages.css";
 import { useState } from "react";
 
 interface LanguagesProps {
-  onLanguageChange: (lang: string) => void;
-  currentLanguage: string;
+  onLanguageChange: (lang: "es" | "en") => void;
+  currentLanguage: "es" | "en";
 }
 
 function Languages({ onLanguageChange, currentLanguage }: LanguagesProps) {
   const [showDropdown, setShowDropdown] = useState(false);
 
-  const languages = ["es", "en"]; 
+  const languages: ("es" | "en")[] = ["es", "en"]; // Array tipado
 
   return (
     <div className="language-selector">
@@ -25,7 +25,7 @@ function Languages({ onLanguageChange, currentLanguage }: LanguagesProps) {
             <li 
               key={lang} 
               onClick={() => {
-                onLanguageChange(lang);
+                onLanguageChange(lang); // Ahora 'lang' es compatible con "es" | "en"
                 setShowDropdown(false);
               }}
               className={currentLanguage === lang ? "active" : ""}
@@ -38,5 +38,6 @@ function Languages({ onLanguageChange, currentLanguage }: LanguagesProps) {
     </div>
   );
 }
+
 
 export default Languages;

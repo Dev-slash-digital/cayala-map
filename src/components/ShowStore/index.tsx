@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import translations from "../../utils/translations.tsx";  
 import "./ShowStore.css";
 import {
   MappedinLocation,
@@ -14,8 +15,10 @@ import QRCode from "qrcode";
 type MenuState = "ShowCategories" | "ShowMenu" | "ShowStore" | "AllHidden";
 type StepAction = { bearing: 'Left' | 'Right' | 'Straight' | string };
 type Step = { action: StepAction; description: string };
+type TranslationType = typeof translations[keyof typeof translations];
 
 interface ShowStoreProps {
+  translations: TranslationType;
   selectedLocation: MappedinLocation | undefined;
   onGoBack: () => void;
   menuState: MenuState;
@@ -32,6 +35,7 @@ interface DescripcionStoreProps {
 }
 
 export const ShowStore: React.FC<ShowStoreProps> = ({
+  translations,
   selectedLocation,
   onGoBack,
   menuState,
@@ -259,11 +263,11 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
     return (
       <div className="operation-hours-container">
         <div className="container-button-hours">
-          <h4 className="operation-hours-title">Horario </h4>
+          <h4 className="operation-hours-title">{translations.storeHours}</h4>
           <span className={`status ${isOpen ? 'open' : 'closed'}`}>{isOpen ? 'Open' : 'Closed'}</span>
           <div className="operation-hours-button" onClick={() => setIsHoursExpanded(!isHoursExpanded)}>
             <div className="location-open-status">
-              {isOpen && currentHours && <p className="update-text">Cierra {formatTime(currentHours.closes)}</p>}
+              {isOpen && currentHours && <p className="update-text">{translations.storeClosed} {formatTime(currentHours.closes)}</p>}
             </div>
             <i className={`chevron fa-solid fa-chevron-${isHoursExpanded ? 'up' : 'down'}`}></i>
           </div>
@@ -308,22 +312,11 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
           {description}
         </p>
         <button onClick={toggleShowMore}>
-          {showMore ? 'Ver menos' : 'Ver más'}
+          {showMore ? translations.storeViewLess : translations.storeViewMore}
         </button>
       </div>
     );
   }
-
- /* const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleHeight = () => {
-    const container = document.querySelector(".container_step_by_step") as HTMLElement;
-    if (!container) return;
-
-    setIsExpanded(!isExpanded);
-    container.classList.toggle('showSteps');
-  };*/
-
 
   const renderBackButton = () => (
     <button className="btn-regresar" onClick={() => { onGoBack(); onMenuStateChange("ShowCategories"); }}>
@@ -366,7 +359,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
             </div>
           </div>
           <div className="container-btn">
-            <button className="btn-direccion" onClick={() => setShowDirections(true)}>Dirección</button>
+            <button className="btn-direccion" onClick={() => setShowDirections(true)}>{translations.storeBtnDirections}</button>
             {selectedLocation?.phone && (
               <button className="btn-telefono">
                 <i className="fa-solid fa-phone"></i>
@@ -377,7 +370,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
           {renderOperationHours}
           {selectedLocation?.categories && selectedLocation.categories.length > 0 && (
             <div className="container-categorias">
-              <h4>Categorías</h4>
+              <h4>{translations.categoriesTitle}</h4>
               <ul>
                 {selectedLocation?.categories.map((category) => (
                   <li key={category.id}>{decodeText(category.name)}</li>
@@ -402,10 +395,10 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
               <div className="container_step_by_step">
                 <div className="containerFlexSteps">
                   <div className="title-16">
-                    <h3>Paso a paso</h3>
+                    <h3>{translations.storeStep}</h3>
                   </div>
                   <div className="steps_time">
-                    <p>Tiempo aprox <span>{totalWalkingTime} min.</span></p>
+                    <p>{translations.storeStimate}<span>{totalWalkingTime} min.</span></p>
                   </div>
                   {/*html lista de nodos de la ruta o paso a paso*/}
                   <div className="container-step">
@@ -426,10 +419,10 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                 </div>
                 <div className="containerQr">
                   <div className="title-16">
-                    <h3>Escanear QR</h3>
+                    <h3>{translations.storeCodeTitle}</h3>
                   </div>
                   {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
-                  <p>Escanea el codigo QR en tu celular.</p>
+                  <p>{translations.storeCodeDescrip}</p>
                 </div>
               </div>
               <div>

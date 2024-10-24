@@ -1,12 +1,15 @@
 // src/components/CategoryList.tsx
 
 import React, { useEffect } from "react";
+import translations from "../../utils/translations.tsx";  
 import "./CategoryList.css";
 import { MappedinCategory, MappedinLocation } from "@mappedin/mappedin-js";
 
 type MenuState = "ShowCategories" | "ShowMenu" | "ShowStore" | "AllHidden";
+type TranslationType = typeof translations[keyof typeof translations];
 
 interface CategoryListProps {
+  translations: TranslationType;
   menuState: MenuState;
   onMenuStateChange: (newState: MenuState) => void;
   categories: MappedinCategory[];
@@ -17,6 +20,7 @@ interface CategoryListProps {
 }
 
 export const CategoryList: React.FC<CategoryListProps> = ({
+  translations,
   categories,
   onCategorySelect,
   onLocationSelect,
@@ -110,7 +114,7 @@ export const CategoryList: React.FC<CategoryListProps> = ({
           {renderExitButton()}
         </div>
       <div className="containerHeaderCategory">
-        <h2>Categorias</h2>
+        <h2>{translations.categoriesTitle}</h2>
       </div>
       <div className="containerListCategory">
         <ul>

@@ -5,10 +5,10 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    right: 10px;
-    top: 58%;
+    right: 5px;
+    top: 50%;
     z-index: 3;
-    margin-top: 10px;
+    margin-top: 80px;
 }
 
 .menu-btn-languages {
@@ -66,9 +66,9 @@
         width: auto;
         height: 40px;
         right: 5px;
-        top: 55%;
+        top: 50%;
         z-index: 3;
-        margin-top: 25px;
+        margin-top: 60px;
     }
 
     .menu-btn-languages {

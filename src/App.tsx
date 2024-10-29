@@ -22,6 +22,7 @@ import { useVenue } from "./hooks/useVenue";
 import { calculateWalkingTime } from "./utils";
 import { ShowStore } from "./components/ShowStore";
 import SplashScreen from "./components/SplashScreen";
+import ZoomButtons from "./components/ZoomButtons";
 import Carrusel from "./components/Carrusel";
 import LogoOverlay from './components/LogoOverlay';
 import { useNavigate, useLocation } from "react-router-dom";
@@ -125,7 +126,7 @@ function App() {
     const directions = departure.directionsTo(destination);
 
     mapView.Journey.draw(directions, {
-      pathOptions: { color: "#fc0" },
+      pathOptions: { color: "blue" },
     });
 
     mapView.Camera.focusOn(
@@ -134,7 +135,7 @@ function App() {
         polygons: [departure, destination],
       },
       {
-        minZoom: 2000,
+        minZoom: 3000,
         duration: 1000,
         easing: CAMERA_EASING_MODE.EASE_IN_OUT,
       }
@@ -325,6 +326,7 @@ function App() {
             handleMapChange={handleMapChange}
             mapView={mapView}
           />
+          {mapView && <ZoomButtons mapView={mapView} />}
           <Carrusel 
           onFinish={handleSplashFinish} 
           />

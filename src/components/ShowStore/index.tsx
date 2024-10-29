@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
-import translations from "../../utils/translations.tsx";  
+import translations from "../../utils/translations.tsx";
 import "./ShowStore.css";
 import {
   MappedinLocation,
@@ -109,7 +109,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
           farZoom: 10000,
           farRadius: 2.3,
         },
-        inactivePathOptions: { color: "#1216ff" },
+        inactivePathOptions: { color: "red" },
       });
 
       mapView.Camera.focusOn(
@@ -167,78 +167,72 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   }, []);
 
 
-  const focusOnNode = useCallback(async (node: MappedinNode, index: number) => {
-    if (!mapView || !directions || !directions.instructions) {
-      console.error("mapView, directions o directions.instructions no están definidos.");
-      return;
-    }
-  
-    const nextInstruction = directions.instructions[index + 1];
-  
-    // Función para calcular la rotación
-    const calculateRotation = (currentNode: MappedinNode, nextNode?: MappedinNode) => {
-      if (!nextNode) return 0;
-      const dx = nextNode.x - currentNode.x;
-      const dy = nextNode.y - currentNode.y;
-      return Math.atan2(dy, dx);
-    };
-  
-    // Función para cambiar el mapa
-    const changeMap = async (newMapName: string) => {
-      const newMap = mapView.venue.maps.find((map: any) => map.name === newMapName);
-      if (newMap) {
-        await mapView.setMap(newMap);
-        console.log(`Cambiado al mapa: ${newMapName}`);
-      } else {
-        console.error(`Mapa no encontrado: ${newMapName}`);
+  const focusOnNode = useCallback(
+    async (node: MappedinNode, index: number, mapView: MapView, directions: MappedinDirections) => {
+      if (!mapView || !directions || !directions.instructions) {
+        console.error("mapView, directions o directions.instructions no están definidos.");
+        return;
       }
-    };
+
+      const nextInstruction = directions.instructions[index + 1];
+
+      const calculateRotation = (currentNode: MappedinNode, nextNode?: MappedinNode) => {
+        if (!nextNode) return 0;
+        const dx = nextNode.x - currentNode.x;
+        const dy = nextNode.y - currentNode.y;
+        return Math.atan2(dy, dx);
+      };
+
+      const currentMapName = mapView.currentMap.name;
+      const nodeMapName = node.map.name;
+      if (currentMapName !== nodeMapName) {
+        const newMap = mapView.venue.maps.find((map) => map.name === nodeMapName);
+        if (newMap) {
+          await mapView.setMap(newMap);
+          console.log(`Cambiado al mapa: ${nodeMapName}`);
+        } else {
+          console.error(`Mapa no encontrado: ${nodeMapName}`);
+          return;
+        }
+      }
+
+      const rotation = calculateRotation(node, nextInstruction?.node);
+      await mapView.Camera.focusOn(
+        { nodes: [node] },
+        {
+          rotation: rotation,
+          tilt: 1,
+          duration: 2000,
+          easing: CAMERA_EASING_MODE.EASE_IN_OUT,
+        }
+      );
+
+      mapView.Journey.setStep(index);
+    },
+    [mapView, directions]
+  );
+
+  const onStepClick = useCallback(
+    (stepIndex: number, mapView: MapView, directions: MappedinDirections, setSelectedStepIndex: (index: number) => void) => {
+      setSelectedStepIndex(stepIndex);
   
-    // Verificar si necesitamos cambiar de piso
-    const currentMapName = mapView.currentMap.name;
-    const nodeMapName = node.map.name;
-    if (currentMapName !== nodeMapName) {
-      await changeMap(nodeMapName);
-      // Esperar un momento después de cambiar el mapa
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
+      if (!mapView || !directions || !directions.instructions) {
+        console.error("mapView, directions o directions.instructions no están disponibles.");
+        return;
+      }
   
-    // Calcular la rotación
-    const rotation = calculateRotation(node, nextInstruction?.node);
+      const instruction = directions.instructions[stepIndex];
+      if (!instruction || !instruction.node) {
+        console.error("Instrucción o nodo del paso no encontrado.");
+        return;
+      }
   
-    // Enfocar en el nodo con rotación
-    await mapView.Camera.focusOn(
-      { nodes: [node] },
-      { 
-        rotation: rotation,
-        tilt: 0, 
-        duration: 1500, 
-        easing: CAMERA_EASING_MODE.EASE_IN_OUT 
-      },
-
-    );
+      focusOnNode(instruction.node, stepIndex, mapView, directions);
+    
+    },
+    [mapView, directions, setSelectedStepIndex, focusOnNode]
+  );
   
-    mapView.Journey.setStep(index);
-  }, [mapView, directions]);
-
-  const handleStepClick = useCallback((stepIndex: number) => {
-    setSelectedStepIndex(stepIndex);
-
-    if (!mapView || !directions || !directions.instructions) {
-      console.error("mapView, directions o directions.instructions no están disponibles.");
-      return;
-    }
-
-    const instruction = directions.instructions[stepIndex];
-    if (!instruction || !instruction.node) {
-      console.error("Instrucción o nodo del paso no encontrado.");
-      return;
-    }
-
-    const node = instruction.node;
-    focusOnNode(node, stepIndex);
-
-  }, [mapView, directions, focusOnNode]);
 
   //hora de operacion de los locales
   const formatTime = (time: string): string => {
@@ -410,7 +404,14 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                         <section
                           className={`list_steps ${isSelected ? 'selected-step' : ''}`}
                           key={index}
-                          onClick={() => handleStepClick(index)}>
+                          onClick={() => {
+                            if (mapView && directions) {
+                              onStepClick(index, mapView, directions, setSelectedStepIndex);
+                            } else {
+                              console.error("mapView o directions no están definidos.");
+                            }
+                          }}
+                        >
                           <i className={`fa-solid fa-arrow-${step.action.bearing === 'Left' ? 'left' : step.action.bearing === 'Right' ? 'right' : 'up'}`}></i>
                           <div>{decodeText(step.description)}</div>
                         </section>
@@ -427,12 +428,12 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
                 </div>
               </div>
               <div>
-                    {/*<i
+                {/*<i
                       id="bajar"
                       className={`fa-solid fa-angle-${!isExpanded ? 'down' : 'up'}`}
                       onClick={toggleHeight}
                     ></i> */}
-                  </div>
+              </div>
             </div>
           )}
         </>

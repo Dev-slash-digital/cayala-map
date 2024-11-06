@@ -25,12 +25,12 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
       clearTimeout(inactivityTimer);
       inactivityTimer = setTimeout(() => {
         setVisible(true); 
-      }, 60000); 
+      }, 600000); 
     };
 
     inactivityTimer = setTimeout(() => {
       setVisible(true);
-    }, 60000); 
+    }, 600000); 
 
     window.addEventListener("click", resetInactivityTimer);
     window.addEventListener("keydown", resetInactivityTimer);
@@ -66,7 +66,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onFinish }) => {
     if (images.length > 0 && visible) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 3000); 
+      }, 300000); 
 
       return () => clearInterval(interval); 
     }

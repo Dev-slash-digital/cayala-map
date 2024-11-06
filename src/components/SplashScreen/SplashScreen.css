@@ -14,3 +14,22 @@
   max-height: 100%;
   object-fit: cover;
 }
+/* Para teléfonos móviles (Ancho máximo de 480px) */
+@media (width <= 600px) and (width >= 0px) {
+
+}
+
+/* Para portátiles (Ancho mínimo de 769px y máximo de 1024px) */
+@media (width <= 1000px) and (width > 600px) {
+  
+}
+
+/* Para pantallas de 32 pulgadas (Ancho mínimo de 1025px y máximo de 1440px) */
+@media (width <= 1440px) and (width > 1000px) {
+
+}
+
+/* Para pantallas 4K (Ancho mínimo de 1441px) */
+@media (width <= 1440px)  { 
+
+}

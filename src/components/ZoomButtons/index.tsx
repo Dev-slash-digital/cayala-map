@@ -54,12 +54,12 @@ const ZoomButtons: React.FC<ZoomButtonsProps> = ({ mapView }) => {
 
   const handleZoomIn = () => {
     console.log('Zoom In clicked');
-    changeZoom(0.8); 
+    changeZoom(0.8);
   };
 
   const handleZoomOut = () => {
     console.log('Zoom Out clicked');
-    changeZoom(1.2); 
+    changeZoom(1.2);
   };
 
   return (

@@ -13,13 +13,16 @@ span {
     --primary-color: #000;
     --border-radius: 16px;
     --border-radius-8: 8px;
-    --font-size-10px: 10px;
-    --font-size-medium: 14px;
-    --font-size-large: 16px;
-    --font-size-large-18: 18px;
-    --font-size-large-24: 24px;
-    --font-size-large-36: 36px;
+    --border-radius-150: 150px;
+    --font-size-extra-small: 0.8em;
+    --font-size-small: 0.9em;
+    --font-size-normal: 1em;
+    --font-size-medium: 1.2em;
+    --font-size-large: 1.4em;
+    --font-size-extra-large: 1.6em;
+    --font-size-super-large: 2em;
 }
+
 
 .texto-limitado {
     display: -webkit-box;
@@ -69,7 +72,7 @@ span {
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    width: 300px;
+    width: 100%;
     height: auto;
     opacity: 1;
     transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
@@ -102,7 +105,7 @@ span {
     justify-content: start;
     align-items: start;
     visibility: hidden;
-    width: 300px;
+    width: 100%;
     height: auto;
     opacity: 0;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
@@ -145,7 +148,7 @@ span {
 }
 
 .header-store .logo img {
-    width: 50px;
+    height: 100%;
     object-fit: cover;
 }
 
@@ -224,7 +227,7 @@ span {
 .container-categorias li {
     font-size: 12px;
     padding: 3px 5px;
-    background-color: #e2e2e2e0;
+    background-color: white;
     min-width: 90px;
     border-radius: 8px;
     color: #000;
@@ -282,12 +285,12 @@ i#bajar {
     flex-direction: column;
     gap: 10px;
     width: 100%;
-    scrollbar-width: none !important;
+    scrollbar-width: none;
 }
 
 .title-16 h3 {
-    font-size: 16px !important;
-    font-weight: 600 !important;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .steps_time {
@@ -301,7 +304,7 @@ i#bajar {
     color: #000;
     letter-spacing: 0px;
     font-weight: normal;
-    font-size: 12px !important;
+    font-size: 12px;
     line-height: 1.2em;
     text-align: left;
 }
@@ -436,7 +439,6 @@ h4.operation-hours-title {
 }
 
 @media (width <=600px) and (width >=0px) {
-
     #show-store {
         max-width: 250px;
     }
@@ -466,6 +468,10 @@ h4.operation-hours-title {
         font-size: 12px;
     }
 
+    .container-categorias li {
+        font-size: 12px;
+    }
+
     .descripcion-store p {
         font-size: 10px;
         font-weight: 400;
@@ -475,11 +481,11 @@ h4.operation-hours-title {
     span.status.closed {
         font-size: 12px;
     }
-    
+
     span.status.open {
         font-size: 12px;
     }
-    
+
     h4.operation-hours-title {
         font-size: 12px;
     }
@@ -521,8 +527,227 @@ h4.operation-hours-title {
         margin: 0 auto;
     }
 
-    .container-categorias ul li {
+}
+
+@media (width <=1050px) and (width >=600px) {
+    #show-store {
+        max-width: 40vw;
+    }
+
+    .btn-direccion,
+    .btn-telefono {
+        font-size: 12px;
+    }
+
+    .btn-telefono {
+        gap: 10px;
+    }
+
+    .container-btn {
+        gap: 10px;
+    }
+
+    .btn-regresar .fa-chevron-left {
+        font-size: 18px;
+    }
+
+    .btn-salir .fa-xmark {
+        font-size: 22px;
+    }
+
+    .container-categorias h4 {
+        font-size: 12px;
+    }
+
+    .container-categorias li {
+        font-size: 12px;
+    }
+
+    .descripcion-store p {
+        font-size: 10px;
+        font-weight: 400;
+        text-align: left;
+    }
+
+    span.status.closed {
+        font-size: 12px;
+    }
+
+    span.status.open {
+        font-size: 12px;
+    }
+
+    .operation-hours-button {
+        font-size: 12px;
+    }
+
+    h4.operation-hours-title {
+        font-size: 12px;
+    }
+
+    .container_step_by_step {
+        width: 100%;
+    }
+
+    .list_steps {
+        width: 95%;
+    }
+
+    .list_steps i {
+        font-size: 18px;
+    }
+
+    .containerQr {
+        display: none;
+    }
+
+    .containerQr img {
+        display: none
+    }
+
+    .containerQr p {
         font-size: 10px;
     }
 
+    .containerQr h3 {
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .containerQr p {
+        width: 100px;
+        font-size: 10px;
+        text-align: center;
+        margin: 0 auto;
+    }
+
+}
+
+@media (width >=1050px) {
+    #show-store.show {
+        max-width: 60vw;
+        padding: 10px 25px 25px 25px;
+    }
+
+    #show-store.hide {
+        max-width: 60vw;
+        padding: 10px 25px 25px 25px;
+    }
+
+    .header-store .logo {
+        width: 120px;
+        height: 80px;
+    }
+
+    .title-16 h2 {
+        font-size: var(--font-size-large)
+    }
+
+    .btn-direccion,
+    .btn-telefono {
+        font-size: var(--font-size-normal);
+    }
+
+    .btn-telefono {
+        gap: 10px;
+    }
+
+    .container-btn {
+        gap: 20px;
+    }
+
+    .btn-regresar .fa-chevron-left {
+        font-size: 26px;
+    }
+
+    .btn-salir .fa-xmark {
+        font-size: 32px;
+    }
+
+    .container-categorias h4 {
+        font-size: var(--font-size-normal);
+    }
+
+    .container-categorias li {
+        font-size: var(--font-size-normal);
+        padding: 10px 15px;
+    }
+
+    .descripcion-store p {
+        font-size: var(--font-size-normal);
+        font-weight: 400;
+        text-align: left;
+    }
+
+    .descripcion-store button {
+        font-size: var(--font-size-small);
+    }
+
+    span.status.closed {
+        font-size: var(--font-size-normal);
+    }
+
+    span.status.open {
+        font-size: var(--font-size-normal);
+    }
+
+    .operation-hours-button {
+        font-size: var(--font-size-normal);
+    }
+
+    h4.operation-hours-title {
+        font-size: var(--font-size-normal);
+    }
+
+    .operation-hours-day-time,
+    .operation-hours-item {
+        font-size: var(--font-size-normal);
+    }
+
+    .container_step_by_step {
+        width: 100%;
+        align-items: center;
+    }
+
+    .steps_time p,
+    .steps_time span {
+        font-size: var(--font-size-medium);
+    }
+
+    section.list_steps.selected-step {
+        font-size: var(--font-size-normal);
+    }
+
+    .list_steps {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .title-16 h3 {
+        font-size: var(--font-size-large);
+        font-weight: 600;
+    }
+
+    .list_steps i {
+        font-size: 22px;
+    }
+
+    .list_steps div {
+        font-size: var(--font-size-small);
+    }
+
+    .containerQr h3 {
+        font-size: var(--font-size-large);
+    }
+
+    .containerQr img {
+        width: 80%;
+    }
+
+    .containerQr p {
+        width: 70%;
+        font-size: var(--font-size-normal);
+        margin: 0 auto;
+    }
 }

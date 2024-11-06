@@ -30,6 +30,7 @@
     margin: 0px !important;
 }
 
+
 @media (width <=600px) and (width >=0px) {
     .menu-btn {
         width: 40px;
@@ -39,5 +40,29 @@
 
     .menu-btn i {
         font-size: 20px;
+    }
+}
+
+@media (width <=1050px) and (width >=601px) {
+    .menu-btn {
+        width: 60px;
+        height: 60px;
+        top: 50%;
+    }
+
+    .menu-btn i {
+        font-size: 20px;
+    }
+}
+
+@media (width >=1051px) {
+    .menu-btn {
+        width: 80px;
+        height: 80px;
+        top: 50%;
+    }
+
+    .menu-btn i {
+        font-size: 30px;
     }
 }

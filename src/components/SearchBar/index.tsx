@@ -1,5 +1,5 @@
 import "./SearchBar.css";
-import translations from "../../utils/translations.tsx";  
+import translations from "../../utils/translations.tsx";
 import { useEffect, useState, useRef } from 'react';
 import {
   getVenue,
@@ -107,7 +107,7 @@ function SearchBar({
             {searchResults.map((location) => (
               <li key={location.id} className="item-tienda"
                 onClick={() => {
-                  setSelectedLocation(location); 
+                  setSelectedLocation(location);
                   console.log(location);
                 }}
               >
@@ -146,8 +146,8 @@ function SearchBar({
               {letter}
             </button>
           ))}
-          <button onClick={() => handleKeyboardClick(' ')}>{translations.searchSpace}</button>
-          <button onClick={handleDelete}>{translations.searchDelete}</button>
+          <button className="espacio" onClick={() => handleKeyboardClick(' ')}>{translations.searchSpace}</button>
+          <button className="borrar" onClick={handleDelete}>{translations.searchDelete}</button>
         </div>
       </div>
     </div>

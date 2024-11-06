@@ -13,6 +13,8 @@ const translations = {
     storeBtnDirections: "Dirección",
     storeViewMore: "Ver más",
     storeViewLess: "Ver menos",
+    levelUp: "Nivel superior",
+    levelDown: "Nivel inferior",
   },
   en: {
     categoriesTitle: "Categories",
@@ -28,6 +30,8 @@ const translations = {
     storeBtnDirections: "Indications",
     storeViewMore: "See more",
     storeViewLess: "See Less",
+    levelUp: "Upper Level",
+    levelDown: "Lower Level",
   },
 } as const;
 

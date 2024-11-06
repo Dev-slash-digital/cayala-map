@@ -1,5 +1,16 @@
-.logo-overlay img{
+.logo-overlay img {
     border-radius: 8px;
+}
+
+.logo-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    z-index: 0;
+    pointer-events: none;
+    padding: 10px;
 }
 
 
@@ -7,4 +18,27 @@
     .logo-overlay {
         display: none;
     }
-  }
+}
+
+@media (width <=1050px) and (width >=601px) {
+    .logo-overlay {
+        display: block;
+    }
+}
+
+@media (width >=1051px) {
+    .logo-overlay {
+        display: block;
+    }
+
+    .logo-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 130px;
+        height: 130px;
+        z-index: 0;
+        pointer-events: none;
+        padding: 10px;
+    }
+}

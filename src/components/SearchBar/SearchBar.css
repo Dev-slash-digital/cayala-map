@@ -3,6 +3,20 @@
   visibility: hidden;
 }
 
+a,
+h1,
+h2,
+h3,
+h4,
+p,
+span,
+ul,
+li,
+button,
+input {
+  font-family: "Montserrat", sans-serif;
+}
+
 :root {
   --background-color: rgba(255, 255, 255, 0.486);
   --box-shadow: 3px 3px 10px rgba(153, 153, 153, 0.2);
@@ -10,9 +24,13 @@
   --border-radius: 16px;
   --border-radius-8: 8px;
   --border-radius-150: 150px;
-  --font-size-small: 10px;
-  --font-size-medium: 14px;
-  --font-size-large: 16px;
+  --font-size-extra-small: 0.8em;
+  --font-size-small: 0.9em;
+  --font-size-normal: 1em;
+  --font-size-medium: 1.2em;
+  --font-size-large: 1.4em;
+  --font-size-extra-large: 1.6em;
+  --font-size-super-large: 2em;
 }
 
 #searchBar.show {
@@ -20,7 +38,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 340px;
+  width: 50vw;
   height: auto;
   opacity: 1;
   transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
@@ -28,7 +46,7 @@
   gap: 10px;
   z-index: 2;
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);
   visibility: visible;
@@ -40,7 +58,7 @@
   justify-content: center;
   align-items: center;
   visibility: hidden;
-  width: 340px;
+  width: 50vw;
   height: auto;
   opacity: 0;
   transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
@@ -48,42 +66,59 @@
   gap: 10px;
   z-index: 2;
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
   transform: translate(-50%, -100%);
 }
 
 .search-container {
   display: flex;
-  width: 340px;
-  min-width: 340px;
-  height: 45px;
-  padding: 8px 15px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 50vw;
+  min-width: 50vw;
   border: none;
   border-radius: var(--border-radius-150);
   outline: none;
   background-color: var(--background-color);
   backdrop-filter: blur(5px);
   box-shadow: var(--box-shadow);
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .search-icon {
   border: none;
   background-color: transparent;
+  padding: 10px 15px;
 }
 
 .search-icon i {
-  font-size: 24px;
+  font-size: var(--font-size-extra-large);
+}
+
+.items-menu {
+  border-radius: var(--border-radius-8);
+  background-color: transparent;
+  color: #000;
+  cursor: pointer;
+  border: none;
+  padding: 10px 15px;
+}
+
+.items-menu i {
+  font-size: var(--font-size-super-large);
 }
 
 #searchBar input {
   width: 100%;
   height: auto;
-  padding: 8px 25px;
+  padding: 8px 15px;
   border: none;
   outline: none;
   background-color: transparent;
-  font-size: 16px;
+  font-size: var(--font-size-large);
   color: #000;
 }
 
@@ -92,8 +127,9 @@
 }
 
 .keyboard {
-  width: 340px;
-  padding: 10px;
+  width: 50vw;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-color: var(--background-color);
   backdrop-filter: blur(5px);
   box-shadow: var(--box-shadow);
@@ -106,24 +142,24 @@
 }
 
 .keyboard-row {
+  width: 48vw;
   display: flex;
   flex-direction: row;
-  gap: 3px;
+  gap: 5px;
   justify-content: center;
   align-items: center;
 }
 
 .keyboard-row button {
-  width: auto;
-  min-width: 28px;
-  height: 30px;
+  width: 100%;
+  height: 35px;
   border: none;
   border-radius: var(--border-radius-8);
   outline: none;
-  padding: 5px 10px;
+  padding: 5px 5px;
   background-color: #fff;
   box-shadow: var(--box-shadow);
-  font-size: 12px;
+  font-size: var(--font-size-small);
   color: #000;
   cursor: pointer;
 }
@@ -136,27 +172,13 @@
   align-items: center;
 }
 
-.items-menu {
-  border-radius: var(--border-radius-8);
-  background-color: transparent;
-  font-size: 10px;
-  color: #000;
-  cursor: pointer;
-  padding: 0px 15px;
-  border: none;
-}
-
-.items-menu i {
-  font-size: 20px;
-}
-
 #container-tiendas-busqueda {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 340px;
-  max-width: 340px;
+  width: 50vw;
+  max-width: 50vw;
   height: auto;
   max-height: 185px;
   background-color: var(--background-color);
@@ -172,7 +194,7 @@
 
 #container-tiendas-busqueda ul {
   width: 100%;
-  max-width: 320px;
+  max-width: calc(50vw - 25px);
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: none !important;
@@ -204,8 +226,8 @@
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  width: 1.60rem;
-  height: 1.60rem;
+  width: 2rem;
+  height: 30px;
   -webkit-box-pack: center;
   justify-content: center;
   flex: 0 0 auto;
@@ -218,32 +240,31 @@ li.item-tienda img {
 }
 
 p.nombre-tienda {
-  font-size: 13px;
+  font-size: var(--font-size-medium);
   color: #000;
   font-weight: 400;
 }
 
 @media (width <=600px) and (width >=0px) {
+
   #searchBar.show {
-    width: 250px;
+    width: 70vw;
     padding: 15px;
     gap: 10px;
   }
 
   .search-container {
-    width: 250px;
-    min-width: 250px;
-    max-width: 250px;
-    height: 35px;
-    padding: 8px 10px;
+    width: 70vw;
+    min-width: 70vw;
+    max-width: 70vw;
   }
 
   .search-icon i {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   .items-menu i {
-    font-size: 20px;
+    font-size: 16px;
   }
 
   #searchBar input {
@@ -252,25 +273,37 @@ p.nombre-tienda {
   }
 
   .keyboard {
-    width: 250px;
-    min-width: 250px;
-    padding: 10px;
+    width: 70vw;
+    min-width: 70vw;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .keyboard-row {
+    width: 70vw;
+    min-width: 70vw;
     gap: 2px;
   }
 
   .keyboard-row button {
-    min-width: 23px;
+    width: 100%;
+    min-width: 20px;
     height: 25px;
-    padding: 5px 5px;
+    padding: 4px 4px;
     font-size: 10px;
+  }
+
+  .keyboard-row .espacio {
+    min-width: 45px;
+  }
+
+  .keyboard-row .borrar {
+    min-width: 45px;
   }
 
   #container-tiendas-busqueda {
     width: 100%;
-    max-width: 260px;
+    max-width: 70vw;
     max-height: 185px;
     padding-top: 10px;
     padding-bottom: 0px;
@@ -278,14 +311,14 @@ p.nombre-tienda {
 
   #container-tiendas-busqueda ul {
     width: 100%;
-    max-width: 250px;
+    max-width: calc(70vw - 20px);
   }
 
   #container-tiendas-busqueda li {
     width: 100%;
-    height: 25px;
-    max-height: 25px;
-    min-height: 25px;
+    height: 30px;
+    max-height: 30px;
+    min-height: 30px;
     padding: 10px;
     gap: 10px;
   }
@@ -293,4 +326,194 @@ p.nombre-tienda {
   p.nombre-tienda {
     font-size: 12px;
   }
+
+  .containerImagen {
+    width: 2.5rem;
+    height: 30px;
+  }
+
+}
+
+@media (width <=1060px) and (width >=601px) {
+  #searchBar.show {
+    width: 70vw;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .search-container {
+    width: 70vw;
+    min-width: 70vw;
+    max-width: 70vw;
+    min-height: 3rem;
+  }
+
+  .search-icon i {
+    font-size: 22px;
+  }
+
+  .items-menu i {
+    font-size: 22px;
+  }
+
+  #searchBar input {
+    padding: 5px;
+    font-size: 16px;
+  }
+
+  .keyboard {
+    width: 70vw;
+    min-width: 70vw;
+    max-width: 70vw;
+  }
+
+  .keyboard-row {
+    width: calc(70vw - 25px);
+    min-width: calc(70vw - 25px);
+    gap: 3px;
+  }
+
+  .keyboard-row button {
+    width: 100%;
+    min-width: 20px;
+    height: 35px;
+    padding: 6px 6px;
+    font-size: 14px;
+  }
+
+  .keyboard-row .espacio {
+    min-width: 65px;
+  }
+
+  .keyboard-row .borrar {
+    min-width: 65px;
+  }
+
+  #container-tiendas-busqueda {
+    width: 100%;
+    max-width: 70vw;
+    max-height: 185px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  #container-tiendas-busqueda ul {
+    width: 100%;
+    max-width: calc(70vw - 25px);
+  }
+
+  #container-tiendas-busqueda li {
+    width: 100%;
+    height: 25px;
+    max-height: 25px;
+    min-height: 25px;
+    gap: 15px;
+  }
+
+  .containerImagen {
+    width: 10%;
+  }
+
+  p.nombre-tienda {
+    font-size: 14px;
+  }
+}
+
+@media (width >=1061px) {
+
+  #searchBar.show {
+    width: 70vw;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .search-container {
+    width: 70vw;
+    min-width: 70vw;
+    max-width: 70vw;
+    min-height: 4rem;
+  }
+
+  .search-icon i {
+    font-size: 30px;
+  }
+
+  .items-menu i {
+    font-size: 30px;
+  }
+
+  .search-icon {
+    padding: 10px 30px;
+  }
+
+  .items-menu {
+    padding: 10px 30px;
+  }
+
+  #searchBar input {
+    padding: 15px;
+    font-size: 22px;
+  }
+
+  .keyboard {
+    width: 70vw;
+    min-width: 70vw;
+    max-width: 70vw;
+  }
+
+  .keyboard-row {
+    width: calc(70vw - 25px);
+    min-width: calc(70vw - 25px);
+    gap: 3px;
+  }
+
+  .keyboard-row button {
+    width: 100%;
+    min-width: 35px;
+    height: 45px;
+    padding: 6px 6px;
+    font-size: 18px;
+  }
+
+  .keyboard-row .espacio {
+    min-width: 85px;
+  }
+
+  .keyboard-row .borrar {
+    min-width: 85px;
+  }
+
+  #container-tiendas-busqueda {
+    width: 70vw;
+    max-width: 70vw;
+    max-height: 285px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  #container-tiendas-busqueda ul {
+    width: 100%;
+    max-width: calc(70vw - 25px);
+  }
+
+  #container-tiendas-busqueda li {
+    width: 100%;
+    height: 55px;
+    max-height: 55px;
+    min-height: 55px;
+    gap: 25px;
+  }
+
+  .containerImagen {
+    width: 10%;
+  }
+
+  p.nombre-tienda {
+    font-size: 20px;
+  }
+
+  .fa-solid .fa-sort-down {
+    font-size: 28px;
+  }
+
 }

@@ -61,6 +61,7 @@
     font-weight: bold;
 }
 
+
 @media (width <=600px) and (width >=0px) {
     .language-selector {
         width: auto;
@@ -82,5 +83,53 @@
 
     .language-dropdown {
         right: 50px;
+    }
+}
+
+@media (width <=1051px) and (width >=601px) {
+    .language-selector {
+        width: auto;
+        height: 60px;
+        right: 5px;
+        top: 50%;
+        z-index: 3;
+        margin-top: 80px;
+    }
+
+    .menu-btn-languages {
+        width: 60px;
+        height: 60px;
+    }
+
+    .language-selector i {
+        font-size: 20px;
+    }
+
+    .language-dropdown {
+        right: 50px;
+    }
+}
+
+@media (width >=1051px) {
+    .language-selector {
+        width: auto;
+        height: 80px;
+        right: 5px;
+        top: 50%;
+        z-index: 3;
+        margin-top: 100px;
+    }
+
+    .menu-btn-languages {
+        width: 80px;
+        height: 80px;
+    }
+
+    .language-selector i {
+        font-size: 30px;
+    }
+
+    .language-dropdown {
+        right: 90px;
     }
 }

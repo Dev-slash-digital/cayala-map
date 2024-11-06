@@ -80,7 +80,7 @@
 
 }
 
-@media (max-width: 600px) {
+@media (width <=600px) and (width >=0px) {
     .map_selector_container {
         width: auto;
         max-width: 40px;
@@ -109,5 +109,69 @@
 
     .menu_btn_levels i {
         font-size: 18px;
+    }
+}
+
+@media (width <=1050px) and (width >=601px) {
+    .map_selector_container {
+        width: auto;
+        max-width: 60px;
+        height: auto;
+        top: 50%;
+    }
+
+    .menu_btn_levels {
+        width: 60px;
+        height: 60px;
+        padding: 0px;
+    }
+
+    .map_selector {
+        position: absolute;
+        left: 60px;
+        top: 0px;
+        font-size: 12px;
+    }
+
+    .map_item {
+        padding: 8px 0px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .menu_btn_levels i {
+        font-size: 18px;
+    }
+}
+
+@media (width >=1051px) {
+    .map_selector_container {
+        width: auto;
+        max-width: 80px;
+        height: auto;
+        top: 50%;
+    }
+
+    .menu_btn_levels {
+        width: 80px;
+        height: 80px;
+        padding: 0px;
+    }
+
+    .map_selector {
+        position: absolute;
+        left: 100px;
+        top: 0px;
+        font-size: 14px;
+    }
+
+    .map_item {
+        padding: 8px 0px;
+        cursor: pointer;
+        font-size: 12px;
+    }
+
+    .menu_btn_levels i {
+        font-size: 30px;
     }
 }

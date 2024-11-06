@@ -36,7 +36,7 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
     if (images.length > 0 && visible) {
       const interval = setInterval(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 3000);
+      }, 300000);
 
       return () => clearInterval(interval);
     }
@@ -51,12 +51,12 @@ const Carrusel: React.FC<CarruselProps> = ({ onFinish }) => {
       clearTimeout(inactivityTimer);
       inactivityTimer = setTimeout(() => {
         setVisible(true);
-      }, 6000);
+      }, 600000);
     };
 
     inactivityTimer = setTimeout(() => {
       setVisible(true);
-    }, 6000);
+    }, 600000);
 
     window.addEventListener("click", resetInactivityTimer);
     window.addEventListener("keydown", resetInactivityTimer);

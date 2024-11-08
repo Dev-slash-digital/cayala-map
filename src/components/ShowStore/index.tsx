@@ -51,6 +51,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   const [selectedStepIndex, setSelectedStepIndex] = useState<number | null>(null);
   const [isHoursExpanded, setIsHoursExpanded] = useState(false);
   const showStoreRef = useRef<HTMLDivElement>(null);
+  const [showQrCode, setShowQrCode] = useState(true);
 
   const decodeText = useCallback((text: string | undefined): string => {
     if (!text) return '';
@@ -215,24 +216,24 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   const onStepClick = useCallback(
     (stepIndex: number, mapView: MapView, directions: MappedinDirections, setSelectedStepIndex: (index: number) => void) => {
       setSelectedStepIndex(stepIndex);
-  
+
       if (!mapView || !directions || !directions.instructions) {
         console.error("mapView, directions o directions.instructions no están disponibles.");
         return;
       }
-  
+
       const instruction = directions.instructions[stepIndex];
       if (!instruction || !instruction.node) {
         console.error("Instrucción o nodo del paso no encontrado.");
         return;
       }
-  
+
       focusOnNode(instruction.node, stepIndex, mapView, directions);
-    
+
     },
     [mapView, directions, setSelectedStepIndex, focusOnNode]
   );
-  
+
 
   //hora de operacion de los locales
   const formatTime = (time: string): string => {
@@ -315,21 +316,31 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
 
   const renderBackButton = () => (
     <button className="btn-regresar" onClick={() => { onGoBack(); onMenuStateChange("ShowCategories"); }}>
-      <i className="fa-solid fa-chevron-left"></i>
+      <span className="material-symbols-outlined">
+        arrow_back
+      </span>
     </button>
   );
 
   const renderExitButton = () => (
     <button className="btn-salir" onClick={() => onMenuStateChange("AllHidden")}>
-      <i className="fa-solid fa-xmark"></i>
+      <span className="material-symbols-outlined">
+        close
+      </span>
     </button>
   );
 
   const renderShowStoreDetails = () => (
     <button className="btn-regresar" onClick={() => setShowDirections(!showDirections)}>
-      <i className="fa-solid fa-chevron-left"></i>
+      <span className="material-symbols-outlined">
+        arrow_back
+      </span>
     </button>
   );
+
+  const toggleQrCode = () => {
+    setShowQrCode(!showQrCode);
+  };
 
   return (
     <div
@@ -389,43 +400,56 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
               </div>
               <div className="container_step_by_step">
                 <div className="containerFlexSteps">
-                  <div className="title-16">
-                    <h3>{translations.storeStep}</h3>
-                  </div>
-                  <div className="steps_time">
-                    <p>{translations.storeStimate}<span>{totalWalkingTime} min.</span></p>
+                  <div className="container-header-steps">
+                    <div className="steps">
+                      <div className="title-16">
+                        <h3>{translations.storeStep}</h3>
+                      </div>
+                      <div className="steps_time">
+                        <p><i className="fa-regular fa-clock"></i>{translations.storeStimate}<span>{totalWalkingTime} min.</span></p>
+                      </div>
+                    </div>
+                    <div className="qr-code">
+                      <button onClick={toggleQrCode}>Ver QR</button>
+                    </div>
                   </div>
                   {/*html lista de nodos de la ruta o paso a paso*/}
-                  <div className="container-step">
-                    {steps.map((step, index) => {
-                      if (!step || !step.action) return null;
-                      const isSelected = index === selectedStepIndex;
-                      return (
-                        <section
-                          className={`list_steps ${isSelected ? 'selected-step' : ''}`}
-                          key={index}
-                          onClick={() => {
-                            if (mapView && directions) {
-                              onStepClick(index, mapView, directions, setSelectedStepIndex);
-                            } else {
-                              console.error("mapView o directions no están definidos.");
-                            }
-                          }}
-                        >
-                          <i className={`fa-solid fa-arrow-${step.action.bearing === 'Left' ? 'left' : step.action.bearing === 'Right' ? 'right' : 'up'}`}></i>
-                          <div>{decodeText(step.description)}</div>
-                        </section>
-                      );
-                    })}
-                  </div>
+                  {showQrCode ? (
+                    <div className="container-step">
+                      {steps.map((step, index) => {
+                        if (!step || !step.action) return null;
+                        const isSelected = index === selectedStepIndex;
+                        return (
+                          <section
+                            className={`list_steps ${isSelected ? 'selected-step' : ''}`}
+                            key={index}
+                            onClick={() => {
+                              if (mapView && directions) {
+                                onStepClick(index, mapView, directions, setSelectedStepIndex);
+                              } else {
+                                console.error("mapView o directions no están definidos.");
+                              }
+                            }}
+                          >
+                            <span className="material-symbols-outlined">
+                              {step.action.bearing === 'Left' ? 'turn_slight_left' : step.action.bearing === 'Right' ? 'turn_slight_right' : 'straight'}
+                            </span>
+                            <div>{decodeText(step.description)}</div>
+                          </section>
+                        );
+                      })}
+                    </div>
+                  ) : (
+                    <div className="containerQr">
+                      <div className="title-16">
+                        <h3>{translations.storeCodeTitle}</h3>
+                      </div>
+                      {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
+                      <p>{translations.storeCodeDescrip}</p>
+                    </div>
+                  )}
                 </div>
-                <div className="containerQr">
-                  <div className="title-16">
-                    <h3>{translations.storeCodeTitle}</h3>
-                  </div>
-                  {qrCodeUrl && <img src={qrCodeUrl} alt="QR Code" />}
-                  <p>{translations.storeCodeDescrip}</p>
-                </div>
+
               </div>
               <div>
                 {/*<i

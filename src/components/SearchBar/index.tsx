@@ -86,7 +86,9 @@ function SearchBar({
     <div id="searchBar" className="hide">
       <div className="search-container">
         <button className="search-icon">
-          <i className="fa-solid fa-magnifying-glass"></i>
+          <span className="material-symbols-outlined">
+            search
+          </span>
         </button>
         <input
           type="text"
@@ -98,7 +100,9 @@ function SearchBar({
           }}
         />
         <button className="items-menu" onClick={() => { onMenuStateChange("ShowCategories"); handleCategoryClick(); }}>
-          <i className="fa-solid fa-list"></i>
+          <span className="material-symbols-outlined">
+            reorder
+          </span>
         </button>
       </div>
       {searchResults.length > 0 && (

@@ -1,7 +1,7 @@
 // src/components/CategoryList.tsx
 
 import React, { useEffect } from "react";
-import translations from "../../utils/translations.tsx";  
+import translations from "../../utils/translations.tsx";
 import "./CategoryList.css";
 import { MappedinCategory, MappedinLocation } from "@mappedin/mappedin-js";
 
@@ -46,7 +46,9 @@ export const CategoryList: React.FC<CategoryListProps> = ({
         onBackClick();
       }}
     >
-      <i className="fa-solid fa-chevron-left"></i>
+      <span className="material-symbols-outlined">
+        arrow_back
+      </span>
     </button>
   );
 
@@ -57,7 +59,9 @@ export const CategoryList: React.FC<CategoryListProps> = ({
         onMenuStateChange("AllHidden");
       }}
     >
-      <i className="fa-solid fa-xmark"></i>
+      <span className="material-symbols-outlined">
+        close
+      </span>
     </button>
   );
 
@@ -68,7 +72,9 @@ export const CategoryList: React.FC<CategoryListProps> = ({
         onMenuStateChange("ShowMenu");
       }}
     >
-      <i className="fa-solid fa-chevron-left"></i>
+      <span className="material-symbols-outlined">
+        arrow_back
+      </span>
     </button>
   );
 
@@ -110,9 +116,9 @@ export const CategoryList: React.FC<CategoryListProps> = ({
   return (
     <div id="categoryList" className="categoryList">
       <div className="container-header-btns">
-          {renderBackMenu()}
-          {renderExitButton()}
-        </div>
+        {renderBackMenu()}
+        {renderExitButton()}
+      </div>
       <div className="containerHeaderCategory">
         <h2>{translations.categoriesTitle}</h2>
       </div>

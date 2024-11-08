@@ -24,8 +24,8 @@ input {
   --border-radius: 16px;
   --border-radius-8: 8px;
   --border-radius-150: 150px;
-  --font-size-extra-small: 0.8em;
-  --font-size-small: 0.9em;
+  --font-size-extra-small: 0.6em;
+  --font-size-small: 0.8em;
   --font-size-normal: 1em;
   --font-size-medium: 1.2em;
   --font-size-large: 1.4em;
@@ -76,10 +76,9 @@ input {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 50vw;
-  min-width: 50vw;
+  width: -webkit-fill-available;
   border: none;
-  border-radius: var(--border-radius-150);
+  border-radius: 25px;
   outline: none;
   background-color: var(--background-color);
   backdrop-filter: blur(5px);
@@ -88,14 +87,17 @@ input {
   padding-bottom: 5px;
 }
 
+.search-icon .material-symbols-outlined {
+  font-size: 30px;
+}
+
+.items-menu .material-symbols-outlined {
+  font-size: 30px;
+}
+
 .search-icon {
   border: none;
   background-color: transparent;
-  padding: 10px 15px;
-}
-
-.search-icon i {
-  font-size: var(--font-size-extra-large);
 }
 
 .items-menu {
@@ -104,21 +106,15 @@ input {
   color: #000;
   cursor: pointer;
   border: none;
-  padding: 10px 15px;
-}
-
-.items-menu i {
-  font-size: var(--font-size-super-large);
 }
 
 #searchBar input {
-  width: 100%;
+  width: -webkit-fill-available;
   height: auto;
   padding: 8px 15px;
   border: none;
   outline: none;
   background-color: transparent;
-  font-size: var(--font-size-large);
   color: #000;
 }
 
@@ -127,7 +123,7 @@ input {
 }
 
 .keyboard {
-  width: 50vw;
+  width: -webkit-fill-available;
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: var(--background-color);
@@ -142,7 +138,7 @@ input {
 }
 
 .keyboard-row {
-  width: 48vw;
+  width: -webkit-fill-available;
   display: flex;
   flex-direction: row;
   gap: 5px;
@@ -151,7 +147,7 @@ input {
 }
 
 .keyboard-row button {
-  width: 100%;
+  width: -webkit-fill-available;
   height: 35px;
   border: none;
   border-radius: var(--border-radius-8);
@@ -159,7 +155,6 @@ input {
   padding: 5px 5px;
   background-color: #fff;
   box-shadow: var(--box-shadow);
-  font-size: var(--font-size-small);
   color: #000;
   cursor: pointer;
 }
@@ -177,8 +172,8 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 50vw;
-  max-width: 50vw;
+  width: -webkit-fill-available;
+  max-width: -webkit-fill-available;
   height: auto;
   max-height: 185px;
   background-color: var(--background-color);
@@ -193,8 +188,8 @@ input {
 }
 
 #container-tiendas-busqueda ul {
-  width: 100%;
-  max-width: calc(50vw - 25px);
+  width: -webkit-fill-available;
+  max-width: -webkit-fill-available;
   overflow-x: hidden;
   overflow-y: auto;
   scrollbar-width: none !important;
@@ -202,7 +197,7 @@ input {
 }
 
 #container-tiendas-busqueda li {
-  width: 100%;
+  width: -webkit-fill-available;
   height: 35px;
   max-height: 35px;
   min-height: 35px;
@@ -226,16 +221,12 @@ input {
   display: flex;
   -webkit-box-align: center;
   align-items: center;
-  width: 2rem;
-  height: 30px;
   -webkit-box-pack: center;
   justify-content: center;
   flex: 0 0 auto;
 }
 
 li.item-tienda img {
-  width: 100%;
-  height: 100%;
   object-fit: contain;
 }
 
@@ -248,178 +239,182 @@ p.nombre-tienda {
 @media (width <=600px) and (width >=0px) {
 
   #searchBar.show {
-    width: 70vw;
-    padding: 15px;
+    width: 75vw;
     gap: 10px;
   }
 
   .search-container {
-    width: 70vw;
-    min-width: 70vw;
-    max-width: 70vw;
-  }
-
-  .search-icon i {
-    font-size: 16px;
-  }
-
-  .items-menu i {
-    font-size: 16px;
-  }
-
-  #searchBar input {
-    padding: 8px 10px;
-    font-size: 14px;
-  }
-
-  .keyboard {
-    width: 70vw;
-    min-width: 70vw;
-    padding-left: 5px;
-    padding-right: 5px;
-  }
-
-  .keyboard-row {
-    width: 70vw;
-    min-width: 70vw;
-    gap: 2px;
-  }
-
-  .keyboard-row button {
-    width: 100%;
-    min-width: 20px;
-    height: 25px;
-    padding: 4px 4px;
-    font-size: 10px;
-  }
-
-  .keyboard-row .espacio {
-    min-width: 45px;
-  }
-
-  .keyboard-row .borrar {
-    min-width: 45px;
-  }
-
-  #container-tiendas-busqueda {
-    width: 100%;
-    max-width: 70vw;
-    max-height: 185px;
-    padding-top: 10px;
-    padding-bottom: 0px;
-  }
-
-  #container-tiendas-busqueda ul {
-    width: 100%;
-    max-width: calc(70vw - 20px);
-  }
-
-  #container-tiendas-busqueda li {
-    width: 100%;
-    height: 30px;
-    max-height: 30px;
-    min-height: 30px;
+    width: -webkit-fill-available;
     padding: 10px;
-    gap: 10px;
+    gap: 5px;
+    border-radius: 15px;
   }
 
-  p.nombre-tienda {
-    font-size: 12px;
+  .search-icon .material-symbols-outlined {
+    font-size: 25px;
   }
 
-  .containerImagen {
-    width: 2.5rem;
-    height: 30px;
-  }
-
-}
-
-@media (width <=1060px) and (width >=601px) {
-  #searchBar.show {
-    width: 70vw;
-    padding: 15px;
-    gap: 10px;
-  }
-
-  .search-container {
-    width: 70vw;
-    min-width: 70vw;
-    max-width: 70vw;
-    min-height: 3rem;
-  }
-
-  .search-icon i {
-    font-size: 22px;
-  }
-
-  .items-menu i {
-    font-size: 22px;
+  .items-menu .material-symbols-outlined {
+    font-size: 25px;
   }
 
   #searchBar input {
     padding: 5px;
-    font-size: 16px;
+    font-size: var(--font-size-small);
   }
 
   .keyboard {
-    width: 70vw;
-    min-width: 70vw;
-    max-width: 70vw;
+    width: -webkit-fill-available;
+    padding: 10px;
   }
 
   .keyboard-row {
-    width: calc(70vw - 25px);
-    min-width: calc(70vw - 25px);
+    width: -webkit-fill-available;
     gap: 3px;
   }
 
   .keyboard-row button {
-    width: 100%;
-    min-width: 20px;
-    height: 35px;
-    padding: 6px 6px;
-    font-size: 14px;
+    width: -webkit-fill-available;
+    height: 25px;
+    padding: 4px 4px;
+    font-size: var(--font-size-extra-small);
   }
 
   .keyboard-row .espacio {
-    min-width: 65px;
+    min-width: 50px;
   }
 
   .keyboard-row .borrar {
-    min-width: 65px;
+    min-width: 50px;
   }
 
   #container-tiendas-busqueda {
-    width: 100%;
-    max-width: 70vw;
-    max-height: 185px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    width: -webkit-fill-available;
+    max-height: 221px;
+    padding: 10px;
   }
 
   #container-tiendas-busqueda ul {
-    width: 100%;
-    max-width: calc(70vw - 25px);
+    width: -webkit-fill-available;
   }
 
   #container-tiendas-busqueda li {
-    width: 100%;
-    height: 25px;
-    max-height: 25px;
-    min-height: 25px;
-    gap: 15px;
+    width: -webkit-fill-available;
+    height: 45px;
+    max-height: 45px;
+    min-height: 45px;
+    gap: 25px;
   }
 
   .containerImagen {
-    width: 10%;
+    width: 40px;
+    height: 40px;
+  }
+  
+  li.item-tienda img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+  }
+  p.nombre-tienda {
+    font-size: var(--font-size-small);
   }
 
+  .fa-solid .fa-sort-down {
+    font-size: 28px;
+  }
+
+}
+
+@media (width <=1050px) and (width >=601px) {
+  #searchBar.show {
+    width: 60vw;
+    gap: 10px;
+  }
+
+  .search-container {
+    width: -webkit-fill-available;
+    padding: 15px;
+    gap: 5px;
+  }
+
+  .search-icon .material-symbols-outlined {
+    font-size: 35px;
+  }
+
+  .items-menu .material-symbols-outlined {
+    font-size: 35px;
+  }
+
+  #searchBar input {
+    padding: 10px;
+    font-size: var(--font-size-normal);
+  }
+
+  .keyboard {
+    width: -webkit-fill-available;
+    padding: 10px;
+  }
+
+  .keyboard-row {
+    width: -webkit-fill-available;
+    gap: 6px;
+  }
+
+  .keyboard-row button {
+    width: -webkit-fill-available;
+    min-width: 35px;
+    height: 45px;
+    padding: 6px 6px;
+    font-size: var(--font-size-small);
+  }
+
+  .keyboard-row .espacio {
+    min-width: 85px;
+  }
+
+  .keyboard-row .borrar {
+    min-width: 85px;
+  }
+
+  #container-tiendas-busqueda {
+    width: -webkit-fill-available;
+    max-height: 250px;
+    padding: 10px;
+  }
+
+  #container-tiendas-busqueda ul {
+    width: -webkit-fill-available;
+  }
+
+  #container-tiendas-busqueda li {
+    width: -webkit-fill-available;
+    height: 55px;
+    max-height: 55px;
+    min-height: 55px;
+    gap: 25px;
+  }
+
+  .containerImagen {
+    width: 60px;
+    height: 60px;
+  }
+  
+  li.item-tienda img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
   p.nombre-tienda {
-    font-size: 14px;
+    font-size: var(--font-size-normal);
+  }
+
+  .fa-solid .fa-sort-down {
+    font-size: 28px;
   }
 }
 
-@media (width >=1061px) {
+@media (width >=1051px) {
 
   #searchBar.show {
     width: 70vw;
@@ -428,26 +423,17 @@ p.nombre-tienda {
   }
 
   .search-container {
-    width: 70vw;
-    min-width: 70vw;
-    max-width: 70vw;
-    min-height: 4rem;
+    width: -webkit-fill-available;
+    padding: 15px;
+    gap: 5px;
   }
 
-  .search-icon i {
-    font-size: 30px;
+  .search-icon .material-symbols-outlined {
+    font-size: 45px;
   }
 
-  .items-menu i {
-    font-size: 30px;
-  }
-
-  .search-icon {
-    padding: 10px 30px;
-  }
-
-  .items-menu {
-    padding: 10px 30px;
+  .items-menu .material-symbols-outlined {
+    font-size: 45px;
   }
 
   #searchBar input {
@@ -456,19 +442,17 @@ p.nombre-tienda {
   }
 
   .keyboard {
-    width: 70vw;
-    min-width: 70vw;
-    max-width: 70vw;
+    width: -webkit-fill-available;
+    padding: 15px;
   }
 
   .keyboard-row {
-    width: calc(70vw - 25px);
-    min-width: calc(70vw - 25px);
-    gap: 3px;
+    width: -webkit-fill-available;
+    gap: 8px;
   }
 
   .keyboard-row button {
-    width: 100%;
+    width: -webkit-fill-available;
     min-width: 35px;
     height: 45px;
     padding: 6px 6px;
@@ -484,20 +468,17 @@ p.nombre-tienda {
   }
 
   #container-tiendas-busqueda {
-    width: 70vw;
-    max-width: 70vw;
-    max-height: 285px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    width: -webkit-fill-available;
+    max-height: 250px;
+    padding: 15px;
   }
 
   #container-tiendas-busqueda ul {
-    width: 100%;
-    max-width: calc(70vw - 25px);
+    width: -webkit-fill-available;
   }
 
   #container-tiendas-busqueda li {
-    width: 100%;
+    width: -webkit-fill-available;
     height: 55px;
     max-height: 55px;
     min-height: 55px;
@@ -505,9 +486,15 @@ p.nombre-tienda {
   }
 
   .containerImagen {
-    width: 10%;
+    width: 60px;
+    height: 60px;
   }
-
+  
+  li.item-tienda img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
   p.nombre-tienda {
     font-size: 20px;
   }

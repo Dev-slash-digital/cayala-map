@@ -3,10 +3,6 @@
     visibility: hidden;
 }
 
-span {
-    font-size: 12px;
-}
-
 :root {
     --background-color: rgba(255, 255, 255, 0.486);
     --box-shadow: 3px 3px 10px rgba(153, 153, 153, 0.2);
@@ -14,8 +10,8 @@ span {
     --border-radius: 16px;
     --border-radius-8: 8px;
     --border-radius-150: 150px;
-    --font-size-extra-small: 0.8em;
-    --font-size-small: 0.9em;
+    --font-size-extra-small: 0.6em;
+    --font-size-small: 0.8em;
     --font-size-normal: 1em;
     --font-size-medium: 1.2em;
     --font-size-large: 1.4em;
@@ -37,7 +33,6 @@ span {
     color: #000;
     background-color: transparent;
     border: none;
-    padding: 5px 5px;
     border-radius: var(--border-radius-8);
     cursor: pointer;
 }
@@ -45,7 +40,6 @@ span {
 .btn-salir {
     background-color: transparent;
     border: none;
-    padding: 5px 5px;
     cursor: pointer;
     color: #000;
     border-radius: var(--border-radius-8);
@@ -59,13 +53,6 @@ span {
     align-items: center;
 }
 
-.btn-regresar .fa-chevron-left {
-    font-size: 18px;
-}
-
-.btn-salir .fa-xmark {
-    font-size: 22px;
-}
 
 #show-store.show {
     display: flex;
@@ -76,7 +63,7 @@ span {
     height: auto;
     opacity: 1;
     transition: opacity 0.5s ease-in, transform 0.5s ease-in, visibility 0.5s ease-in;
-    padding: 5px 10px 10px 10px;
+    padding: 10px;
     z-index: 10;
     position: fixed;
     top: 30%;
@@ -109,7 +96,6 @@ span {
     height: auto;
     opacity: 0;
     transition: opacity 0.5s ease-out, transform 0.5s ease-out, visibility 0.5s ease-out;
-    padding: 5px 10px 10px 10px;
     z-index: 10;
     position: fixed;
     top: 30%;
@@ -132,11 +118,11 @@ span {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 .header-store .logo {
-    width: 60px;
+    width: 80px;
     height: 50px;
     background-color: #ffffff;
     border-radius: 8px;
@@ -148,12 +134,12 @@ span {
 }
 
 .header-store .logo img {
-    height: 100%;
-    object-fit: cover;
+    width: 75px;
+    height: 45px;
+    object-fit: contain;
 }
 
-.title-16 h2 {
-    font-size: 16px;
+.header-store .title-16 h2 {
     font-weight: 700;
     text-transform: uppercase;
     text-align: left;
@@ -167,7 +153,6 @@ span {
     outline: none;
     border: none;
     color: white;
-    font-size: 10px;
     font-weight: 500;
     width: 100%;
     cursor: pointer;
@@ -179,13 +164,12 @@ span {
     justify-content: center;
     align-items: center;
     gap: 15px;
-    padding: 10px 10px;
+    padding: 10px 5px;
     border-radius: 8px;
     background-color: #eeff00;
     border: solid 1px #000000;
     outline: none;
     border: none;
-    font-size: 10px;
     font-weight: 500;
     color: black;
     width: 100%;
@@ -210,7 +194,6 @@ span {
 }
 
 .container-categorias h4 {
-    font-size: 14px;
     font-weight: 500;
 }
 
@@ -225,12 +208,12 @@ span {
 }
 
 .container-categorias li {
-    font-size: 12px;
     padding: 3px 5px;
     background-color: white;
     min-width: 90px;
     border-radius: 8px;
     color: #000;
+    box-shadow: var(--box-shadow);
 }
 
 .descripcion-store {
@@ -242,24 +225,21 @@ span {
 }
 
 .descripcion-store p {
-    font-size: 10px;
     text-align: left;
 }
 
 .descripcion-store button {
     border: none;
     background-color: transparent;
-    font-size: 10px;
     color: red;
 }
 
 .container_step_by_step {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: start;
     gap: 10px;
-    overflow: hidden;
     transition: max-height 0.5s ease-in-out;
     width: 100%;
     max-height: auto;
@@ -269,11 +249,6 @@ span {
 .showSteps {
     max-height: 1000px;
     transition: max-height 0.5s ease-in-out;
-}
-
-i#bajar {
-    padding: 10px;
-    cursor: pointer;
 }
 
 .containerPasos {
@@ -288,8 +263,13 @@ i#bajar {
     scrollbar-width: none;
 }
 
-.title-16 h3 {
-    font-size: 16px;
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.steps .title-16 h3 {
     font-weight: 600;
 }
 
@@ -299,14 +279,24 @@ i#bajar {
     align-items: center;
 }
 
-.steps_time p,
-.steps_time span {
+.steps .steps_time p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     color: #000;
     letter-spacing: 0px;
-    font-weight: normal;
+    font-weight: 400;
     font-size: 12px;
-    line-height: 1.2em;
     text-align: left;
+}
+
+.fa-clock {
+    font-size: var(--font-size-normal);
+}
+
+.steps_time span {
+    font-weight: 600;
 }
 
 .container-step {
@@ -314,25 +304,49 @@ i#bajar {
     flex-direction: column;
     justify-content: start;
     align-items: start;
-    gap: 5px;
+    gap: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
+}
+
+.container-header-steps {
+    display: grid;
+    grid-template-columns: 70% 30%;
+    justify-content: center;
+    align-items: start;
+}
+
+.qr-code button {
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: none;
+    background: black;
+    color: white;
+    font-weight: 600;
 }
 
 .list_steps {
-    width: 100%;
+    width: -webkit-fill-available;
     cursor: pointer;
     background-color: #e5f1ff;
     display: flex;
     justify-content: start;
     align-items: center;
     gap: 10px;
-    padding: 5px 8px;
+    padding: 10px;
     border-radius: 8px;
+}
+
+.list_steps span {
+    font-size: var(--font-size-large);
+    color: #0105e9;
 }
 
 .selected-step {
     background-color: #0105e9;
     color: white;
-    font-size: 10px;
 }
 
 .list_steps:hover {
@@ -340,33 +354,34 @@ i#bajar {
     color: black;
 }
 
-.list_steps i {
-    font-size: 15px;
-}
-
 .list_steps div {
     padding: 4px;
-    font-size: 10px;
     text-align: left;
 }
 
 .containerQr {
-    width: 100%;
+    width: -webkit-fill-available;
+    padding: 15px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: var(--box-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .containerQr h3 {
-    font-size: 18px;
     font-weight: 600;
     text-align: center;
 }
 
 .containerQr img {
-    width: 100px;
+    width: 250px;
 }
 
 .containerQr p {
     width: 70%;
-    font-size: 10px;
+    font-size: var(--font-size-extra-large);
     margin: 0 auto;
 }
 
@@ -389,6 +404,7 @@ i#bajar {
 .container-button-hours {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 10px;
 }
 
@@ -400,27 +416,23 @@ i#bajar {
 
 .operation-hours-day-time,
 .operation-hours-item {
-    width: 90%;
+    width: -webkit-fill-available;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    font-size: 10px;
 }
 
 span.status.closed {
     color: #ff1212;
-    font-size: 14px;
     font-weight: 500;
 }
 
 span.status.open {
     color: #00c230;
-    font-size: 14px;
     font-weight: 500;
 }
 
 h4.operation-hours-title {
-    font-size: 14px;
     font-weight: 500;
 }
 
@@ -428,8 +440,7 @@ h4.operation-hours-title {
     display: flex;
     gap: 10px;
     align-items: center;
-    color: #676767;
-    font-size: 14px;
+    color: #313131;
     cursor: pointer;
 }
 
@@ -440,208 +451,135 @@ h4.operation-hours-title {
 
 @media (width <=600px) and (width >=0px) {
     #show-store {
-        max-width: 250px;
-    }
-
-    .btn-direccion,
-    .btn-telefono {
-        font-size: 10px;
-    }
-
-    .btn-telefono {
-        gap: 5px;
-    }
-
-    .container-btn {
-        gap: 5px;
-    }
-
-    .btn-regresar .fa-chevron-left {
-        font-size: 18px;
-    }
-
-    .btn-salir .fa-xmark {
-        font-size: 22px;
-    }
-
-    .container-categorias h4 {
-        font-size: 12px;
-    }
-
-    .container-categorias li {
-        font-size: 12px;
-    }
-
-    .descripcion-store p {
-        font-size: 10px;
-        font-weight: 400;
-        text-align: left;
-    }
-
-    span.status.closed {
-        font-size: 12px;
-    }
-
-    span.status.open {
-        font-size: 12px;
-    }
-
-    h4.operation-hours-title {
-        font-size: 12px;
-    }
-
-    .container_step_by_step {
-        width: 100%;
-    }
-
-    .list_steps {
-        width: 250px;
-    }
-
-    .list_steps i {
-        font-size: 18px;
-    }
-
-    .containerQr {
-        display: none;
-    }
-
-    .containerQr img {
-        display: none
-    }
-
-    .containerQr p {
-        font-size: 10px;
-    }
-
-    .containerQr h3 {
-        font-size: 16px;
-        font-weight: 600;
-        text-align: center;
-    }
-
-    .containerQr p {
-        width: 100px;
-        font-size: 10px;
-        text-align: center;
-        margin: 0 auto;
-    }
-
-}
-
-@media (width <=1050px) and (width >=600px) {
-    #show-store {
-        max-width: 40vw;
-    }
-
-    .btn-direccion,
-    .btn-telefono {
-        font-size: 12px;
-    }
-
-    .btn-telefono {
-        gap: 10px;
-    }
-
-    .container-btn {
-        gap: 10px;
-    }
-
-    .btn-regresar .fa-chevron-left {
-        font-size: 18px;
-    }
-
-    .btn-salir .fa-xmark {
-        font-size: 22px;
-    }
-
-    .container-categorias h4 {
-        font-size: 12px;
-    }
-
-    .container-categorias li {
-        font-size: 12px;
-    }
-
-    .descripcion-store p {
-        font-size: 10px;
-        font-weight: 400;
-        text-align: left;
-    }
-
-    span.status.closed {
-        font-size: 12px;
-    }
-
-    span.status.open {
-        font-size: 12px;
-    }
-
-    .operation-hours-button {
-        font-size: 12px;
-    }
-
-    h4.operation-hours-title {
-        font-size: 12px;
-    }
-
-    .container_step_by_step {
-        width: 100%;
-    }
-
-    .list_steps {
-        width: 95%;
-    }
-
-    .list_steps i {
-        font-size: 18px;
-    }
-
-    .containerQr {
-        display: none;
-    }
-
-    .containerQr img {
-        display: none
-    }
-
-    .containerQr p {
-        font-size: 10px;
-    }
-
-    .containerQr h3 {
-        font-size: 16px;
-        font-weight: 600;
-        text-align: center;
-    }
-
-    .containerQr p {
-        width: 100px;
-        font-size: 10px;
-        text-align: center;
-        margin: 0 auto;
-    }
-
-}
-
-@media (width >=1050px) {
-    #show-store.show {
-        max-width: 60vw;
-        padding: 10px 25px 25px 25px;
+        max-width: 70vw;
     }
 
     #show-store.hide {
-        max-width: 60vw;
-        padding: 10px 25px 25px 25px;
+        max-width: 70vw;
     }
 
-    .header-store .logo {
-        width: 120px;
-        height: 80px;
+    .header-store .title-16 h2 {
+        font-size: var(--font-size-normal);
     }
 
-    .title-16 h2 {
-        font-size: var(--font-size-large)
+    .btn-direccion,
+    .btn-telefono {
+        font-size: var(--font-size-small);
+    }
+
+    .btn-telefono {
+        gap: 5px;
+    }
+
+    .container-btn {
+        gap: 5px;
+    }
+
+    .btn-regresar span{
+        font-size: 25px;
+    }
+
+    .btn-salir span {
+        font-size: 25px;
+    }
+
+    .container-categorias h4 {
+        font-size: var(--font-size-small);
+    }
+
+    .container-categorias li {
+        font-size: var(--font-size-small);
+    }
+
+    .descripcion-store p {
+        font-size: var(--font-size-extra-small);
+        font-weight: 400;
+        text-align: left;
+    }
+
+    .descripcion-store button {
+        font-size: var(--font-size-extra-small);
+    }
+
+    .operation-hours-button {
+        font-size: var(--font-size-small);
+    }
+
+    span.status.closed {
+        font-size: var(--font-size-small);
+    }
+
+    span.status.open {
+        font-size: var(--font-size-small);
+    }
+
+    h4.operation-hours-title {
+        font-size: var(--font-size-small);
+    }
+
+    .operation-hours-button .chevron {
+        font-size: 15px;
+    }
+
+    .operation-hours-item {
+        font-size: var(--font-size-small);
+    }
+
+    .steps h3 {
+        font-size: var(--font-size-normal);
+    }
+
+    .steps .steps_time p {
+        font-size: var(--font-size-small);
+    }
+
+    .list_steps span {
+        font-size: var(--font-size-large);
+    }
+
+    .list_steps div {
+        font-size: var(--font-size-small);
+    }
+
+    .containerQr {
+        display: none;
+    }
+
+    .containerQr img {
+        display: none;
+    }
+
+    .containerQr h3 {
+        font-size: var(--font-size-medium);
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .containerQr p {
+        width: 100px;
+        font-size: var(--font-size-small);
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .steps_time p {
+        font-size: var(--font-size-small);
+    }
+
+    .fa-clock {
+        font-size: var(--font-size-medium);
+    }
+}
+
+@media (width <=1050px) and (width >=600px) {
+    #show-store.show {
+        max-width: 50vw;
+        padding: 5px 20px 20px 20px;
+    }
+
+    #show-store.hide {
+        max-width: 50vw;
+        padding: 5px 20px 20px 20px;
     }
 
     .btn-direccion,
@@ -650,19 +588,19 @@ h4.operation-hours-title {
     }
 
     .btn-telefono {
-        gap: 10px;
+        gap: 5px;
     }
 
     .container-btn {
-        gap: 20px;
+        gap: 15px;
     }
 
-    .btn-regresar .fa-chevron-left {
-        font-size: 26px;
+    .btn-regresar .span {
+        font-size: 25px;
     }
 
-    .btn-salir .fa-xmark {
-        font-size: 32px;
+    .btn-salir span {
+        font-size: 25px;
     }
 
     .container-categorias h4 {
@@ -671,11 +609,12 @@ h4.operation-hours-title {
 
     .container-categorias li {
         font-size: var(--font-size-normal);
-        padding: 10px 15px;
+        padding: 5px 10px;
+        border-radius: 15px;
     }
 
     .descripcion-store p {
-        font-size: var(--font-size-normal);
+        font-size: var(--font-size-small);
         font-weight: 400;
         text-align: left;
     }
@@ -684,6 +623,10 @@ h4.operation-hours-title {
         font-size: var(--font-size-small);
     }
 
+    .operation-hours-button {
+        font-size: var(--font-size-normal);
+    }
+
     span.status.closed {
         font-size: var(--font-size-normal);
     }
@@ -692,62 +635,230 @@ h4.operation-hours-title {
         font-size: var(--font-size-normal);
     }
 
-    .operation-hours-button {
-        font-size: var(--font-size-normal);
-    }
-
     h4.operation-hours-title {
         font-size: var(--font-size-normal);
     }
 
-    .operation-hours-day-time,
+    .operation-hours-button .chevron {
+        font-size: 15px;
+    }
+
     .operation-hours-item {
+        font-size: var(--font-size-small);
+    }
+
+    .container-header-steps {
+        padding-bottom: 15px;
+    }
+
+    .steps h3 {
         font-size: var(--font-size-normal);
     }
 
-    .container_step_by_step {
-        width: 100%;
-        align-items: center;
-    }
-
-    .steps_time p,
-    .steps_time span {
-        font-size: var(--font-size-medium);
-    }
-
-    section.list_steps.selected-step {
+    .steps .steps_time p {
         font-size: var(--font-size-normal);
     }
 
-    .list_steps {
-        width: 95%;
-        padding: 15px;
-    }
 
-    .title-16 h3 {
+    .list_steps span {
         font-size: var(--font-size-large);
-        font-weight: 600;
-    }
-
-    .list_steps i {
-        font-size: 22px;
     }
 
     .list_steps div {
         font-size: var(--font-size-small);
     }
 
-    .containerQr h3 {
-        font-size: var(--font-size-large);
+    .containerQr {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
     .containerQr img {
-        width: 80%;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .containerQr h3 {
+        font-size: var(--font-size-normal);
+        font-weight: 600;
+        text-align: center;
     }
 
     .containerQr p {
-        width: 70%;
-        font-size: var(--font-size-normal);
+        width: -webkit-fill-available;
+        font-size: var(--font-size-small);
+        text-align: center;
         margin: 0 auto;
     }
+
+    .steps_time p {
+        font-size: var(--font-size-small);
+    }
+
+    .fa-clock {
+        font-size: var(--font-size-medium);
+    }
+}
+
+
+@media (width >=1050px) {
+    #show-store.show {
+        max-width: 60vw;
+        padding: 5px 20px 20px 20px;
+    }
+
+    #show-store.hide {
+        max-width: 60vw;
+        padding: 5px 20px 20px 20px;
+    }
+
+    .header-store {
+        gap: 15px;
+        margin-bottom: 15px;
+    }
+
+    .header-store .title-16 h2 {
+        font-size: var(--font-size-extra-large);
+    }
+
+    .header-store .logo {
+        width: 120px;
+        height: 100px;
+    }
+
+    .header-store .logo img {
+        width: 110px;
+        height: 90px;
+        object-fit: contain;
+    }
+
+    .btn-direccion,
+    .btn-telefono {
+        font-size: var(--font-size-large);
+    }
+
+    .btn-telefono {
+        gap: 5px;
+    }
+
+    .container-btn {
+        gap: 15px;
+    }
+
+    .btn-regresar span {
+        font-size: 30px;
+    }
+
+    .btn-salir span {
+        font-size: 30px;
+    }
+
+    .containerStoreDetails {
+        gap: 15px;
+    }
+
+    .container-categorias h4 {
+        font-size: var(--font-size-large);
+    }
+
+    .container-categorias li {
+        font-size: var(--font-size-large);
+        padding: 5px 10px;
+        border-radius: 15px;
+    }
+
+    .descripcion-store p {
+        font-size: var(--font-size-medium);
+        font-weight: 400;
+        text-align: left;
+    }
+
+    .descripcion-store button {
+        font-size: var(--font-size-medium);
+    }
+
+    .operation-hours-button {
+        font-size: var(--font-size-large);
+    }
+
+    span.status.closed {
+        font-size: var(--font-size-large);
+    }
+
+    span.status.open {
+        font-size: var(--font-size-large);
+    }
+
+    h4.operation-hours-title {
+        font-size: var(--font-size-large);
+    }
+
+    .operation-hours-button .chevron {
+        font-size: 15px;
+    }
+
+    .operation-hours-item {
+        font-size: var(--font-size-large);
+    }
+
+    .container-header-steps {
+        padding-bottom: 15px;
+    }
+
+    .steps h3 {
+        font-size: var(--font-size-extra-large);
+    }
+
+    .steps .steps_time p {
+        font-size: var(--font-size-large);
+    }
+
+    .fa-clock {
+        font-size: var(--font-size-normal);
+    }
+
+    .container-step {
+        padding: 20px;
+    }
+
+    .qr-code button {
+        font-size: var(--font-size-large)
+    }
+
+    .list_steps span {
+        padding: 10px;
+    }
+
+    .list_steps span {
+        font-size: var(--font-size-super-large);
+    }
+
+    .list_steps div {
+        font-size: var(--font-size-medium);
+    }
+
+    .containerQr {
+        display: flex;
+        gap: 10px;
+    }
+
+    .containerQr img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .containerQr h3 {
+        font-size: var(--font-size-extra-large);
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .containerQr p {
+        width: -webkit-fill-available;
+        font-size: var(--font-size-normal);
+        text-align: center;
+        margin: 0 auto;
+    }
+
 }

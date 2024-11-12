@@ -264,8 +264,14 @@ function App() {
     }
   }, [venue]);
 
+  const handleCategorySelect = (category: MappedinCategory) => {
+    setSelectedCategory(category);
+    setMenuState("ShowCategories");
+  };
+
   const memoizedShowStore = useMemo(() => (
     <ShowStore
+      onCategorySelect={handleCategorySelect}
       translations={translations[currentLanguage]}
       selectedLocation={selectedLocation}
       onGoBack={() => handleMenuStateChange("ShowCategories")}

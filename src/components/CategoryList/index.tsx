@@ -1,5 +1,3 @@
-// src/components/CategoryList.tsx
-
 import React, { useEffect } from "react";
 import translations from "../../utils/translations.tsx";
 import "./CategoryList.css";
@@ -29,8 +27,6 @@ export const CategoryList: React.FC<CategoryListProps> = ({
   menuState,
   onMenuStateChange,
 }) => {
-
-
   useEffect(() => {
     const showCategoryList = document.getElementById("categoryList");
     if (showCategoryList) {

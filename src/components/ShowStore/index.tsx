@@ -7,6 +7,7 @@ import {
   CAMERA_EASING_MODE,
   MappedinNode,
   MappedinDirections,
+  MappedinCategory,
 } from "@mappedin/mappedin-js";
 import "@mappedin/mappedin-js/lib/mappedin.css";
 import QRCode from "qrcode";
@@ -28,6 +29,7 @@ interface ShowStoreProps {
   mapView: MapView | undefined;
   url: string;
   directions: MappedinDirections | undefined;
+  onCategorySelect: (category: MappedinCategory) => void;
 }
 
 interface DescripcionStoreProps {
@@ -45,6 +47,7 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   mapView,
   url,
   directions,
+  onCategorySelect,
 }) => {
   const [showDirections, setShowDirections] = useState(false);
   const [qrCodeUrl, setQrCodeUrl] = useState("");
@@ -52,6 +55,10 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
   const [isHoursExpanded, setIsHoursExpanded] = useState(false);
   const showStoreRef = useRef<HTMLDivElement>(null);
   const [showQrCode, setShowQrCode] = useState(true);
+
+  const handleCategorySelect = (category: MappedinCategory) => {
+    onCategorySelect(category);
+  };
 
   const decodeText = useCallback((text: string | undefined): string => {
     if (!text) return '';
@@ -379,7 +386,12 @@ export const ShowStore: React.FC<ShowStoreProps> = ({
               <h4>{translations.categoriesTitle}</h4>
               <ul>
                 {selectedLocation?.categories.map((category) => (
-                  <li key={category.id}>{decodeText(category.name)}</li>
+                  <li
+                    key={category.id}
+                    onClick={() => handleCategorySelect(category)}
+                  >
+                    {decodeText(category.name)}
+                  </li>
                 ))}
               </ul>
             </div>

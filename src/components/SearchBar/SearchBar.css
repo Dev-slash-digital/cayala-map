@@ -238,7 +238,8 @@ p.nombre-tienda {
 
 @media (width <=600px) and (width >=0px) {
 
-  #searchBar.show {
+  #searchBar.show,
+  #searchBar.hide {
     width: 75vw;
     gap: 10px;
   }
@@ -327,7 +328,8 @@ p.nombre-tienda {
 }
 
 @media (width <=1050px) and (width >=601px) {
-  #searchBar.show {
+  #searchBar.show,
+  #searchBar.hide {
     width: 60vw;
     gap: 10px;
   }
@@ -416,7 +418,8 @@ p.nombre-tienda {
 
 @media (width >=1051px) {
 
-  #searchBar.show {
+  #searchBar.show,
+  #searchBar.hide {
     width: 70vw;
     padding: 15px;
     gap: 10px;

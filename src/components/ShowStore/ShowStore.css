@@ -705,12 +705,12 @@ h4.operation-hours-title {
 @media (width >=1050px) {
     #show-store.show {
         max-width: 60vw;
-        padding: 5px 20px 20px 20px;
+        padding: 20px 20px 20px 20px;
     }
 
     #show-store.hide {
         max-width: 60vw;
-        padding: 5px 20px 20px 20px;
+        padding: 20px 20px 20px 20px;
     }
 
     .header-store {

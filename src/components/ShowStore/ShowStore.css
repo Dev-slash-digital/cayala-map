@@ -452,10 +452,12 @@ h4.operation-hours-title {
 @media (width <=600px) and (width >=0px) {
     #show-store {
         max-width: 70vw;
+        padding: 10px;
     }
 
     #show-store.hide {
         max-width: 70vw;
+        padding: 10px;
     }
 
     .header-store .title-16 h2 {
@@ -574,12 +576,12 @@ h4.operation-hours-title {
 @media (width <=1050px) and (width >=600px) {
     #show-store.show {
         max-width: 50vw;
-        padding: 5px 20px 20px 20px;
+        padding: 20px 20px 20px 20px;
     }
 
     #show-store.hide {
         max-width: 50vw;
-        padding: 5px 20px 20px 20px;
+        padding: 20px 20px 20px 20px;
     }
 
     .btn-direccion,
